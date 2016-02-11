@@ -200,9 +200,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
         {
             this.handleException(e,true);
         }
-
         Gson gson = new Gson();
-
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,gson.toJson(user),new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
