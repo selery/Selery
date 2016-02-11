@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 
 import mx.selery.entity.User;
+import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.ui.ActivityBase;
 import mx.selery.library.ui.ActivityFormBase;
 import mx.selery.library.ui.EmailValidator;
@@ -42,12 +43,16 @@ public class EmailRegistrationActivity extends ActivityFormBase {
     private TextView password=null;
     private TextView confirmPassword=null;
     private TextView email=null;
+    private UserSessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_registration);
+
+
+        this.session = new UserSessionManager(getApplicationContext());
 
         final Button registerButton = (Button) findViewById(R.id.button_register);
 
@@ -93,15 +98,13 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                     return;
                 }
 
-                //TODO: encryptar el password
-
                 RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
                 final ProgressDialog dialog = ProgressDialog.show(EmailRegistrationActivity.this,
                         StringHelper.getValueFromResourceCode("app_name", EmailRegistrationActivity.this.getBaseContext()),
                         StringHelper.getValueFromResourceCode("misc_please_wait", EmailRegistrationActivity.this.getBaseContext()));
 
                 //Validar que el email no exista
-                String url = String.format("http://192.168.0.2/Selery.Web.Api/api/registration/finduserbyemail?email=%1$s",email.getText());
+                String url = String.format("%1$s%2$s%3$s",getEndpoint(),"/registration/finduserbyemail?email=",email.getText());
                 StringRequest req = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -182,7 +185,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
     private void registerUser(String firstName, String lastName, String email, String password)
     {
         RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
-        String url = "http://192.168.0.2/Selery.Web.Api/api/registration/adduser";
+        String url = String.format("%1$s%2$s",getEndpoint(),"/registration/adduser");
 
         User user = null;
         try
@@ -205,20 +208,21 @@ public class EmailRegistrationActivity extends ActivityFormBase {
             public void onResponse(JSONObject response) {
                 try {
 
-                    //TODO: inicializar la sesion
-                    Log.d("Nuevo UserID:", response.getString("UserID"));
+                    //inicializar la sesion
+                    session.createUserLoginSession(String.format("%1$s %2$s", response.getString("FirstName"), response.getString("LastName")),
+                            response.getString("UserID"));
+                    reportTransient("Usuario registrado!");
                 }
                 catch(Exception e)
                 {
-                    handleException(e, true);
+                    handleException(e,true);
                 }
             }
-
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleException(error.toString(), true);
+                handleException(error.toString(),true);
             }
         }
 

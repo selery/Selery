@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Selery</string>
+    <string name="endpoint">http://192.168.0.2/Selery.Web.Api/api</string>
 
     <!--miscellaneous-->
     <string name="misc_please_wait">Espere un momento</string>
@@ -17,6 +18,10 @@
     <string name="registration_user_exists">El usuario ya está registrado.</string>
     <string name="registration_invalid_email">El email no es válido</string>
     <string name="registration_password_mismatch">Password y Confirmar password no son iguales</string>
+    <string name="registration_user_create_error">Error al registrar el usuario</string>
+    <string name="registration_error">Ha ocurrido un error</string>
+
+
 
 
 

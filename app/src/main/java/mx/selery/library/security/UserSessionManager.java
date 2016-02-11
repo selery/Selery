@@ -39,7 +39,7 @@ public class UserSessionManager
     public static final String KEY_NAME = "name";
 
     // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
+    public static final String KEY_ID = "id";
 
     // Constructor
     public UserSessionManager(Context context){
@@ -49,7 +49,7 @@ public class UserSessionManager
     }
 
     //Create login session
-    public void createUserLoginSession(String name, String email){
+    public void createUserLoginSession(String name, String id){
         // Storing login value as TRUE
         editor.putBoolean(IS_USER_LOGIN, true);
 
@@ -57,7 +57,7 @@ public class UserSessionManager
         editor.putString(KEY_NAME, name);
 
         // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_ID, id);
 
         // commit changes
         editor.commit();
@@ -100,7 +100,7 @@ public class UserSessionManager
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
         // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_ID, pref.getString(KEY_ID, null));
 
         // return user
         return user;
