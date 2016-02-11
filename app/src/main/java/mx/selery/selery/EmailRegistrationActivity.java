@@ -36,7 +36,7 @@ import mx.selery.library.utility.StringHelper;
 
 public class EmailRegistrationActivity extends ActivityFormBase {
 
-    //Form Fields
+    //Form Fields  updated
     private TextView firstName=null;
     private TextView lastName=null;
     private TextView password=null;
