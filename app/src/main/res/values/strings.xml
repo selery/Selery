@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Selery</string>
+
+    <!--miscellaneous-->
+    <string name="misc_please_wait">Espere un momento</string>
+    <string name="misc_required_field">Campo requerido</string>
+
+    <!--Registration-->
+    <string name="registration_register">Registrarme</string>
+    <string name="registration_email_registration">E-mail</string>
+    <string name="registration_login">Ya tengo cuenta</string>
+    <string name="registration_first_name">Nombre</string>
+    <string name="registration_last_name">Apellido</string>
+    <string name="registration_email">Email</string>
+    <string name="registration_password">Password</string>
+    <string name="registration_confirm_password">Confirmar password</string>
+    <string name="registration_user_exists">El usuario ya está registrado.</string>
+    <string name="registration_invalid_email">El email no es válido</string>
+    <string name="registration_password_mismatch">Password y Confirmar password no son iguales</string>
+
+
+
+</resources>

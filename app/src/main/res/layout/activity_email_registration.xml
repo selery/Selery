@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/registro">
+    <View
+        android:id="@+id/view_frame1"
+        android:layout_width="1dp"
+        android:layout_height="50dp" />
+    <ImageView
+        android:id="@+id/image_main_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launchscreen"
+        android:layout_gravity="center_horizontal" />
+    <!-- First Name  -->
+    <View
+        android:id="@+id/view_frame2"
+        android:layout_width="1dp"
+        android:layout_height="8dp" />
+    <EditText
+        android:id="@+id/text_first_name"
+        android:layout_gravity="center_horizontal"
+        android:inputType="text"
+        android:hint="@string/registration_first_name"
+        style="@style/editInput">
+        <requestFocus />
+    </EditText>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="8dp" />
+    <!-- Last Name  -->
+    <EditText
+        android:id="@+id/text_last_name"
+        android:inputType="text"
+        style="@style/editInput"
+        android:hint="@string/registration_last_name"
+        android:layout_gravity="center_horizontal" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="8dp" />
+    <!-- Email  -->
+    <EditText
+        android:id="@+id/text_email"
+        android:inputType="textEmailAddress"
+        style="@style/editInput"
+        android:hint="@string/registration_email"
+        android:layout_gravity="center_horizontal" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="28dp" />
+    <!-- Password  -->
+    <EditText
+        android:id="@+id/text_password"
+        android:inputType="textPassword"
+        style="@style/editInput"
+        android:hint="@string/registration_password"
+        android:layout_gravity="center_horizontal" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="8dp" />
+    <!-- Confirm Password  -->
+    <EditText
+        android:id="@+id/text_confirm_password"
+        android:inputType="textPassword"
+        style="@style/editInput"
+        android:hint="@string/registration_confirm_password"
+        android:layout_gravity="center_horizontal" />
+    <!-- Accept terms and conditions  -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="28dp" />
+    <TextView
+        android:id="@+id/text_terms_conditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:layout_gravity="center_horizontal" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="8dp" />
+    <Button
+        android:id="@+id/button_register"
+        android:text="@string/registration_register"
+        android:onClick="RegisterButtoClick"
+        android:layout_gravity="center_horizontal"
+        style="@style/button3" />
+</LinearLayout>
