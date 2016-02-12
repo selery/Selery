@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mx.selery.selery">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,8 +26,11 @@
             android:name=".RegistrationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".EmailRegistrationActivity"></activity>
+        <activity android:name=".EmailRegistrationActivity" />
+        <activity
+            android:name=".ProgramListActivity"
+            android:label="@string/title_activity_program_list"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

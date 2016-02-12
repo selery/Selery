@@ -1,6 +1,7 @@
 package mx.selery.selery;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -118,9 +119,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                             else
                             {
                                 reportTransient(StringHelper.getValueFromResourceCode("registration_user_exists", EmailRegistrationActivity.this.getBaseContext()));
-
                             }
-                            dialog.cancel();
                         } catch (Exception e) {
                             handleException(e, true);
                         } finally {
@@ -204,12 +203,17 @@ public class EmailRegistrationActivity extends ActivityFormBase {
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,gson.toJson(user),new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-
+                try
+                {
                     //inicializar la sesion
-                    session.createUserLoginSession(String.format("%1$s %2$s", response.getString("FirstName"), response.getString("LastName")),
-                            response.getString("UserID"));
-                    reportTransient("Usuario registrado!");
+                    session.setUser(response);
+                    if (response.isNull("CurrentProgram"))
+                    {
+                        //ir a seleccionar el programa
+                        Intent intenet = new Intent().setClass(EmailRegistrationActivity.this, ProgramListActivity.class);
+                        startActivity(intenet);
+                    }
+
                 }
                 catch(Exception e)
                 {

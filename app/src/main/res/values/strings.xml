@@ -5,6 +5,9 @@
     <!--miscellaneous-->
     <string name="misc_please_wait">Espere un momento</string>
     <string name="misc_required_field">Campo requerido</string>
+    <string name="misc_error">Error</string>
+    <string name="misc_hello">Hola</string>
+    <string name="misc_admiration">!</string>
 
     <!--Registration-->
     <string name="registration_register">Registrarme</string>
@@ -20,9 +23,8 @@
     <string name="registration_password_mismatch">Password y Confirmar password no son iguales</string>
     <string name="registration_user_create_error">Error al registrar el usuario</string>
     <string name="registration_error">Ha ocurrido un error</string>
-
-
-
+    <string name="title_activity_program_list">ProgramListActivity</string>
+    <string name="registration_program_select">Llegó la hora de elegir un PROGRAMA que te ayude a completar tu meta</string>
 
 
 </resources>

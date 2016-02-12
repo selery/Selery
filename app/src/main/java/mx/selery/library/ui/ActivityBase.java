@@ -33,7 +33,7 @@ public class ActivityBase extends AppCompatActivity {
 
     public void handleException(Exception ex, Boolean show) {
         if (show) {
-            String error = String.format("%1: %2", StringHelper.getValueFromResourceCode("registration_error", getApplicationContext()), ex.getMessage());
+            String error = String.format("%1$s:%2$s", StringHelper.getValueFromResourceCode("misc_error", getApplicationContext()), ex.getMessage());
             reportTransient(error);
         }
         this.handleException(ex);
@@ -45,7 +45,7 @@ public class ActivityBase extends AppCompatActivity {
 
     public void handleException(String ex, Boolean show) {
         if (show) {
-            String error = String.format("%1$s : %2$s", StringHelper.getValueFromResourceCode("registration_error", getApplicationContext()), ex);
+            String error = String.format("%1$s : %2$s", StringHelper.getValueFromResourceCode("misc_error", getApplicationContext()), ex);
             reportTransient(error);
         }
         this.handleException(ex);

@@ -5,8 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
+import mx.selery.entity.User;
 import mx.selery.selery.RegistrationActivity;
 
 /**
@@ -41,6 +47,30 @@ public class UserSessionManager
     // Email address (make variable public to access from outside)
     public static final String KEY_ID = "id";
 
+    public static final String USER_SESION ="USER_SESION";
+
+    private JSONObject user;
+    public JSONObject getUser()
+    {
+        if(this.user!=null) return this.user;
+        try
+        {
+            this.user= new JSONObject(pref.getString(USER_SESION,null));
+        }
+        catch(Exception ex)
+        {
+            this.user=null;
+        }
+        return this.user;
+    }
+    public void setUser(JSONObject user) {
+        this.user=user;
+        editor.putString(USER_SESION, this.user.toString());
+        editor.commit();
+    }
+
+
+
     // Constructor
     public UserSessionManager(Context context){
         this._context = context;
@@ -63,6 +93,12 @@ public class UserSessionManager
         editor.commit();
     }
 
+    public void createUserLoginSession(JSONObject user)
+    {
+        editor.putBoolean(IS_USER_LOGIN, true);
+        editor.putString(USER_SESION, user.toString());
+        editor.commit();
+    }
 
     /**
      * Sino esta logeado redireccionarlo a registro
