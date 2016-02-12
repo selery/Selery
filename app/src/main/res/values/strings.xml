@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Selery</string>
-    <string name="endpoint">http://192.168.0.3/Selery.Web.Api/api</string>
+    <string name="endpoint">http://192.168.0.7/Selery.Web.Api/api</string>
 
     <!--miscellaneous-->
     <string name="misc_please_wait">Espere un momento</string>
@@ -25,6 +25,11 @@
     <string name="registration_error">Ha ocurrido un error</string>
     <string name="title_activity_program_list">ProgramListActivity</string>
     <string name="registration_program_select">Llegó la hora de elegir un PROGRAMA que te ayude a completar tu meta</string>
+
+    <!--Workout-->
+    <string name="wkt_program_item_BGColor">#00C7BE</string>
+    <string name="wkt_program_item_BGAlternateColor">#1DA1CA</string>
+
 
 
 </resources>
