@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -28,19 +29,22 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
 
     private JSONArray items;
     private UserSessionManager session;
-    Context context;
+    private Context context;
 
-    public static class ProgramViewHolder extends RecyclerView.ViewHolder {
+    public static class ProgramViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         // Campos respectivos de un item
         public ImageView programImage;
         public TextView programName;
         public TextView description;
         public TextView selectedProgram;
         public TextView duration;
-        public RelativeLayout  rlayout;
+        public RelativeLayout rlayout;
+        public int programID;
 
         public ProgramViewHolder(View v) {
             super(v);
+            v.setClickable(true);
+            v.setOnClickListener(this);
             rlayout = (RelativeLayout) v.findViewById(R.id.rlayout);
             programImage = (ImageView) v.findViewById(R.id.image_program);
             programName = (TextView) v.findViewById(R.id.text_program_name);
@@ -48,6 +52,12 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             selectedProgram = (TextView) v.findViewById(R.id.text_selected_program);
             duration = (TextView) v.findViewById(R.id.text_duration);
         }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(v.getContext(), "ProgramID: " + this.programID, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public ProgramAdapter(JSONArray items) {
@@ -78,6 +88,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             else
                 viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGAlternateColor));
 
+            viewHolder.programID=Integer.parseInt(items.getJSONObject(i).getString("ProgramID"));
             viewHolder.programImage.setImageResource(R.mipmap.ic_seleryprograma);
             viewHolder.programName.setText(items.getJSONObject(i).getString("Name"));
             viewHolder.description.setText(items.getJSONObject(i).getString("Description"));
@@ -97,5 +108,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         }
 
     }
+
+
 
 }
