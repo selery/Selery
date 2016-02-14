@@ -52,13 +52,14 @@ public class ProgramListActivity extends ActivityFormBase {
 
             RequestQueue queue = Volley.newRequestQueue(ProgramListActivity.this.getBaseContext());
             String url = String.format("%1$s%2$s",getEndpoint(),"/workout/getactiveprograms");
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, url,new Response.Listener<JSONArray>() {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url,new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     try
                     {
                         // Crear un nuevo adaptador
                         adapter = new ProgramAdapter(response);
+
                         recycler.setAdapter(adapter);
                     }
                     catch(Exception e)

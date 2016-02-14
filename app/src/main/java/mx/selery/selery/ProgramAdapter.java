@@ -2,11 +2,13 @@ package mx.selery.selery;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -35,9 +37,11 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         public TextView description;
         public TextView selectedProgram;
         public TextView duration;
+        public RelativeLayout  rlayout;
 
         public ProgramViewHolder(View v) {
             super(v);
+            rlayout = (RelativeLayout) v.findViewById(R.id.rlayout);
             programImage = (ImageView) v.findViewById(R.id.image_program);
             programName = (TextView) v.findViewById(R.id.text_program_name);
             description = (TextView) v.findViewById(R.id.text_description);
@@ -68,13 +72,12 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         try
         {
             String unitOfMeasureTex = StringHelper.getValueFromResourceCode(items.getJSONObject(i).getString("UnitOfMeasureCode"), this.context);
-            int colorID;
             if (i % 2 == 0)
-                colorID= Color.parseColor(StringHelper.getValueFromResourceCode("wkt_program_item_BGColor", this.context));
-            else
-                colorID= Color.parseColor(StringHelper.getValueFromResourceCode("wkt_program_item_BGAlternateColor", this.context));
+                viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGColor));
 
-            viewHolder.itemView.setBackgroundColor(colorID);
+            else
+                viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGAlternateColor));
+
             viewHolder.programImage.setImageResource(R.mipmap.ic_seleryprograma);
             viewHolder.programName.setText(items.getJSONObject(i).getString("Name"));
             viewHolder.description.setText(items.getJSONObject(i).getString("Description"));
@@ -88,9 +91,9 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             }*/
 
         }
-        catch(Exception e)
+        catch(Exception ex)
         {
-
+            Exception e=ex;
         }
 
     }
