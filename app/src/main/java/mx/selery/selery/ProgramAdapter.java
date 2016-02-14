@@ -55,7 +55,8 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), "ProgramID: " + this.programID, Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "Posicion: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(v.getContext(), "ProgramID: " + this.programID, Toast.LENGTH_SHORT).show();
         }
 
     }

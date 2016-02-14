@@ -60,6 +60,7 @@ public class ProgramListActivity extends ActivityFormBase {
             linearLayoutManager = new LinearLayoutManager(this);
             recycler.setLayoutManager(linearLayoutManager);
 
+            //TODO: no incluir el programa actiov del usuario que esta en progreso (si existiera)
             RequestQueue queue = Volley.newRequestQueue(ProgramListActivity.this.getBaseContext());
             String url = String.format("%1$s%2$s",getEndpoint(),"/workout/getactiveprograms");
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url,new Response.Listener<JSONArray>() {
