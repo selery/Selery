@@ -1,6 +1,7 @@
 package mx.selery.selery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         public TextView selectedProgram;
         public TextView duration;
         public RelativeLayout rlayout;
-        public int programID;
+        public JSONObject program;
 
         public ProgramViewHolder(View v) {
             super(v);
@@ -55,8 +56,20 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), "Posicion: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            //Toast.makeText(v.getContext(), "ProgramID: " + this.programID, Toast.LENGTH_SHORT).show();
+            try
+            {
+                Intent intent = new Intent().setClass(v.getContext(), ProgramSelectActivity.class);
+                intent.putExtra("Position", getAdapterPosition());
+                intent.putExtra("",this.program.toString());
+                v.getContext().startActivity(intent);
+                //Toast.makeText(v.getContext(), "Posicion: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "ProgramID: " + this.program.getString(("ProgramID")), Toast.LENGTH_SHORT).show();
+            }
+            catch(Exception ex)
+            {
+
+            }
+
         }
 
     }
@@ -89,7 +102,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             else
                 viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGAlternateColor));
 
-            viewHolder.programID=Integer.parseInt(items.getJSONObject(i).getString("ProgramID"));
+            viewHolder.program=items.getJSONObject(i);
             viewHolder.programImage.setImageResource(R.mipmap.ic_seleryprograma);
             viewHolder.programName.setText(items.getJSONObject(i).getString("Name"));
             viewHolder.description.setText(items.getJSONObject(i).getString("Description"));
@@ -105,7 +118,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         }
         catch(Exception ex)
         {
-            Exception e=ex;
+
         }
 
     }

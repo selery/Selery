@@ -62,7 +62,7 @@ public class ProgramListActivity extends ActivityFormBase {
 
             //TODO: no incluir el programa actiov del usuario que esta en progreso (si existiera)
             RequestQueue queue = Volley.newRequestQueue(ProgramListActivity.this.getBaseContext());
-            String url = String.format("%1$s%2$s",getEndpoint(),"/workout/getactiveprograms");
+            String url = String.format("%1$s%2$s%3$s",getEndpoint(),"/workout/getavailableprograms?UserID=",this.session.getUser().getString("UserID"));
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url,new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
