@@ -29,12 +29,12 @@
         <activity android:name=".EmailRegistrationActivity" />
         <activity
             android:name=".ProgramListActivity"
-            android:label="@string/title_activity_program_list"
+            android:label="@string/wkt_activity_program_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ProgramCard" />
+
         <activity
             android:name=".ProgramSelectActivity"
-            android:label="@string/title_activity_program_select"
+            android:label="@string/wkt_activity_program_select"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
