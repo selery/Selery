@@ -11,10 +11,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.ui.ActivityFormBase;
@@ -22,8 +34,8 @@ import mx.selery.library.utility.StringHelper;
 
 public class ProgramSelectActivity extends ActivityFormBase {
 
-    int position=0;
-    JSONObject program;
+    private int position=0;
+    private JSONObject program;
     private UserSessionManager session;
 
     @Override
@@ -72,7 +84,15 @@ public class ProgramSelectActivity extends ActivityFormBase {
             {
                 public void onClick(View v)
                 {
-                    selectProgramButtonClick(v);
+                    try
+                    {
+                        selectProgramButtonClick(v);
+                    }
+                    catch (Exception ex)
+                    {
+                        handleException(ex,true);
+                    }
+
                 }
             }
             );
@@ -84,11 +104,8 @@ public class ProgramSelectActivity extends ActivityFormBase {
         }
     }
 
-    private void selectProgramButtonClick(View v)
+    private void selectProgramButtonClick(View v)  throws Exception
     {
-        try
-        {
-
 
             //si el usuario ya tiene un programa que no esta en progreso y es diferente al que selecciono
             //hay que confirmar si quiere cambiarlo
@@ -120,14 +137,53 @@ public class ProgramSelectActivity extends ActivityFormBase {
             else
             {
                 //registrar el programa
+                RequestQueue queue = Volley.newRequestQueue(this.getBaseContext());
+                String url = String.format("%1$s/workout/userprograminsert?userID=%2$s&programID=%3$s",
+                        getEndpoint(),
+                        this.session.getUser().getString("UserID"),
+                        this.program.getString("ProgramID"));
+                //final String programID = this.program.getString("ProgramID");
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try
+                        {
+                            Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
+                            startActivity(intenet);
+                        }
+                        catch (Exception e)
+                        {
+                            handleException(e, true);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        handleException(error.toString(), true);
+
+                    }
+                }
+
+                );/*{
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("programID", "1");
+                        return params;
+                    }
+                    @Override
+                    public byte[] getBody()  {
+                        String httpPostBody="programID=1";
+                        return httpPostBody.getBytes();
+                    }
+
+
+                };*/
+
+                queue.add(req);
             }
 
-        }
-        catch(Exception ex)
-        {
-            throw new RuntimeException(ex);
-
-        }
 
     }
     @Override

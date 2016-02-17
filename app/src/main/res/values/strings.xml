@@ -39,7 +39,7 @@
     <string name="wkt_select_program_text1">Actualmente hay</string>
     <string name="wkt_select_program_text2">perosona(s) en este reto.</string>
     <string name="wkt_duration">Duración :</string>
-
+    <string name="title_activity_program_start">ProgramStart</string>
 
 
 </resources>

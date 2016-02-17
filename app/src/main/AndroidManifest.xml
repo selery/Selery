@@ -31,11 +31,15 @@
             android:name=".ProgramListActivity"
             android:label="@string/wkt_activity_program_list"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ProgramSelectActivity"
             android:label="@string/wkt_activity_program_select"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProgramStart"
+            android:label="@string/title_activity_program_start"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ProgramStartActivity"></activity>
     </application>
 
 </manifest>
