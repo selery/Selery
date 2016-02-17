@@ -138,11 +138,11 @@ public class ProgramSelectActivity extends ActivityFormBase {
             {
                 //registrar el programa
                 RequestQueue queue = Volley.newRequestQueue(this.getBaseContext());
-                String url = String.format("%1$s/workout/userprograminsert?userID=%2$s&programID=%3$s",
+                String url = String.format("%1$s/workout/userprograminsert?userID=%2$s",
                         getEndpoint(),
-                        this.session.getUser().getString("UserID"),
-                        this.program.getString("ProgramID"));
+                        this.session.getUser().getString("UserID"));
                 //final String programID = this.program.getString("ProgramID");
+                final JSONObject selectedProgram=this.program;
                 JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -164,22 +164,17 @@ public class ProgramSelectActivity extends ActivityFormBase {
                     }
                 }
 
-                );/*{
+                ){
                     @Override
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("programID", "1");
-                        return params;
+                    public byte[] getBody() {
+                        try {
+                            return selectedProgram.toString().getBytes("UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
                     }
-                    @Override
-                    public byte[] getBody()  {
-                        String httpPostBody="programID=1";
-                        return httpPostBody.getBytes();
-                    }
-
-
-                };*/
+                };
 
                 queue.add(req);
             }

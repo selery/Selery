@@ -123,6 +123,4 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
 
     }
 
-
-
 }
