@@ -110,78 +110,73 @@ public class ProgramSelectActivity extends ActivitySecure {
 
     private void selectProgramButtonClick(View v)  throws Exception
     {
+        //si el usuario ya tiene un programa que no esta en progreso y es diferente al que selecciono
+        //hay que confirmar si quiere cambiarlo
+        JSONObject program = !this.session.getUser().isNull("Program") ? this.session.getUser().getJSONObject("Program") : null;
+        if (program != null && program.getString("ProgramID") != this.program.getString("ProgramID") && !program.getBoolean("OnProgress"))
+        {
 
-            //si el usuario ya tiene un programa que no esta en progreso y es diferente al que selecciono
-            //hay que confirmar si quiere cambiarlo
-            JSONObject program = !this.session.getUser().isNull("Program") ? this.session.getUser().getJSONObject("Program") : null;
-            if(program!=null && program.getString("ProgramID")!=this.program.getString("ProgramID") && !program.getBoolean("OnProgress"))
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()));
-                builder.setMessage(StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()));
-                builder.setPositiveButton(StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //ir a ProgramStart
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.setNegativeButton(StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //ir a program list
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
-
-            }
-            else
-            {
-                //registrar el programa
-                RequestQueue queue = Volley.newRequestQueue(this.getBaseContext());
-                String url = String.format("%1$s/workout/userprograminsert?userID=%2$s",
-                        getEndpoint(),
-                        this.session.getUser().getString("UserID"));
-                //final String programID = this.program.getString("ProgramID");
-                final JSONObject selectedProgram=this.program;
-                JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try
-                        {
-                            Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
-                            startActivity(intenet);
-                        }
-                        catch (Exception e)
-                        {
-                            handleException(e, true);
+            AlertDialog dialog = alertBox(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()),
+                    StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()),
+                    StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()),
+                    StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //ir a ProgramStart
+                            dialog.dismiss();
                         }
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        handleException(error.toString(), true);
-
+                    ,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //ir a ProgramStart
+                            dialog.dismiss();
+                        }
+                    },
+                    MessageType.Question);
+            dialog.show();
+        }
+        else
+        {
+            //registrar el programa
+            RequestQueue queue = Volley.newRequestQueue(this.getBaseContext());
+            String url = String.format("%1$s/workout/userprograminsert?userID=%2$s",
+                    getEndpoint(),
+                    this.session.getUser().getString("UserID"));
+            //final String programID = this.program.getString("ProgramID");
+            final JSONObject selectedProgram = this.program;
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
+                        startActivity(intenet);
+                    } catch (Exception e) {
+                        handleException(e, true);
                     }
                 }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    handleException(error.toString(), true);
 
-                ){
-                    @Override
-                    public byte[] getBody() {
-                        try {
-                            return selectedProgram.toString().getBytes("UTF-8");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-                };
-
-                queue.add(req);
+                }
             }
+
+            ) {
+                @Override
+                public byte[] getBody() {
+                    try {
+                        return selectedProgram.toString().getBytes("UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
+
+            queue.add(req);
+        }
 
 
     }

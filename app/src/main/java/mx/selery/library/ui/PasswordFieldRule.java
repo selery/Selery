@@ -34,7 +34,7 @@ public class PasswordFieldRule implements IValidator {
             return true;
         }
 
-        errorMessage = StringHelper.getValueFromResourceCode("registration_password_mismatch", this.context);
+        errorMessage = StringHelper.getValueFromResourceCode("reg_password_mismatch", this.context);
         return false;
     }
 

@@ -37,7 +37,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
     private TextView password=null;
     private TextView confirmPassword=null;
     private TextView email=null;
-    private UserSessionManager session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,7 +47,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_email_registration);
 
-            this.session = new UserSessionManager(getApplicationContext());
+
 
             final Button registerButton = (Button) findViewById(R.id.button_register);
 
@@ -86,7 +86,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                         }
 
                         if (!TextUtils.isEmpty(formErrorLevel)) {
-                            reportTransient(formErrorLevel);//error a nivel de forma
+                            reportTransient(formErrorLevel,MessageType.Error);//error a nivel de forma
                             password.requestFocus();//TODO: hay que tratar de no tener el control en hardcode
                         }
 
@@ -200,13 +200,13 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                 try
                 {
                     //en este punto el usuario esta registrado hay que inicializar la sesion
+                    UserSessionManager session;
+                    session = new UserSessionManager(getApplicationContext());
                     session.setUser(response);
-                    if (response.isNull("CurrentProgram"))
-                    {
-                        //ir a seleccionar el programa
-                        Intent intenet = new Intent().setClass(EmailRegistrationActivity.this, ProgramListActivity.class);
-                        startActivity(intenet);
-                    }
+
+                     //ir a seleccionar el programa
+                     Intent intenet = new Intent().setClass(EmailRegistrationActivity.this, ProgramListActivity.class);
+                     startActivity(intenet);
 
                 }
                 catch(Exception e)
