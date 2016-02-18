@@ -2,32 +2,25 @@ package mx.selery.selery;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
-import com.google.gson.Gson;
 
 import mx.selery.entity.User;
 import mx.selery.library.security.UserSessionManager;
-import mx.selery.library.ui.ActivityBase;
 import mx.selery.library.ui.ActivityFormBase;
 import mx.selery.library.ui.EmailValidator;
 import mx.selery.library.ui.Field;
@@ -47,100 +40,107 @@ public class EmailRegistrationActivity extends ActivityFormBase {
     private UserSessionManager session;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        try
+        {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_email_registration);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email_registration);
+            this.session = new UserSessionManager(getApplicationContext());
 
+            final Button registerButton = (Button) findViewById(R.id.button_register);
 
-        this.session = new UserSessionManager(getApplicationContext());
+            registerButton.setOnClickListener(new View.OnClickListener() {
 
-        final Button registerButton = (Button) findViewById(R.id.button_register);
+                public void onClick(View v) {
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-                String formErrorLevel = null;
-                TextView control = null;
-                if (validateForm() == false)
-                {
-                    for (IValidator validator : ruleSet)
+                    String formErrorLevel = null;
+                    TextView control = null;
+                    if (validateForm() == false)
                     {
-                        if (validator instanceof PasswordFieldRule && formErrorLevel==null)
+                        for (IValidator validator : ruleSet)
                         {
-                            String error = validator.getErrorMessage ();
-                            if (!TextUtils.isEmpty(error))
+                            if (validator instanceof PasswordFieldRule && formErrorLevel==null)
                             {
-                                formErrorLevel=error;
+                                String error = validator.getErrorMessage ();
+                                if (!TextUtils.isEmpty(error))
+                                {
+                                    formErrorLevel=error;
+                                }
                             }
+                            else if(validator instanceof Field && control==null)
+                            {
+                                if (!TextUtils.isEmpty(validator.getErrorMessage()))
+                                {
+                                    control = validator.getControl ();
+                                    break;
+                                }
+                            }
+
                         }
-                        else if(validator instanceof Field && control==null)
+
+                        if (control != null)
                         {
-                            if (!TextUtils.isEmpty(validator.getErrorMessage()))
-                            {
-                                control = validator.getControl ();
-                                break;
-                            }
+                            control.requestFocus ();//posicionarse en el primer control con error
                         }
 
+                        if (!TextUtils.isEmpty(formErrorLevel)) {
+                            reportTransient(formErrorLevel);//error a nivel de forma
+                            password.requestFocus();//TODO: hay que tratar de no tener el control en hardcode
+                        }
+
+                        return;
                     }
 
-                    if (control != null)
-                    {
-                        control.requestFocus ();//posicionarse en el primer control con error
-                    }
+                    RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
+                    final ProgressDialog dialog = ProgressDialog.show(EmailRegistrationActivity.this,
+                            StringHelper.getValueFromResourceCode("app_name", EmailRegistrationActivity.this.getBaseContext()),
+                            StringHelper.getValueFromResourceCode("misc_please_wait", EmailRegistrationActivity.this.getBaseContext()));
 
-                    if (!TextUtils.isEmpty(formErrorLevel)) {
-                        reportTransient(formErrorLevel);//error a nivel de forma
-                        password.requestFocus();//TODO: hay que tratar de no tener el control en hardcode
-                    }
-
-                    return;
-                }
-
-                RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
-                final ProgressDialog dialog = ProgressDialog.show(EmailRegistrationActivity.this,
-                        StringHelper.getValueFromResourceCode("app_name", EmailRegistrationActivity.this.getBaseContext()),
-                        StringHelper.getValueFromResourceCode("misc_please_wait", EmailRegistrationActivity.this.getBaseContext()));
-
-                //Validar que el email no exista
-                String url = String.format("%1$s%2$s%3$s",getEndpoint(),"/registration/finduserbyemail?email=",email.getText());
-                StringRequest req = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            int userID = Integer.parseInt(response.toString());
-                            if (userID == 0)
-                            {
-                                //el usuario no existe
-                                registerUser(firstName.getText().toString(),lastName.getText().toString(),email.getText().toString(),password.getText().toString());
+                    //Validar que el email no exista
+                    String url = String.format("%1$s%2$s%3$s",getEndpoint(),"/registration/finduserbyemail?email=",email.getText());
+                    StringRequest req = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                int userID = Integer.parseInt(response.toString());
+                                if (userID == 0)
+                                {
+                                    //el usuario no existe
+                                    registerUser(firstName.getText().toString(),lastName.getText().toString(),email.getText().toString(),password.getText().toString());
+                                }
+                                else
+                                {
+                                    reportTransient(StringHelper.getValueFromResourceCode("registration_user_exists", EmailRegistrationActivity.this.getBaseContext()));
+                                }
+                            } catch (Exception e) {
+                                handleException(e, true);
+                            } finally {
+                                dialog.cancel();
                             }
-                            else
-                            {
-                                reportTransient(StringHelper.getValueFromResourceCode("registration_user_exists", EmailRegistrationActivity.this.getBaseContext()));
-                            }
-                        } catch (Exception e) {
-                            handleException(e, true);
-                        } finally {
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleException(error.toString(), true);
                             dialog.cancel();
                         }
+                    }
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        handleException(error.toString(), true);
-                        dialog.cancel();
-                    }
+                    );
+
+                    queue.add(req);
+
                 }
+            });
+        }
+        catch(Exception ex)
+        {
+            handleException(ex,true);
+        }
 
-                );
-
-                queue.add(req);
-
-            }
-        });
     }
 
     @Override
@@ -181,31 +181,25 @@ public class EmailRegistrationActivity extends ActivityFormBase {
 
     }
 
-    private void registerUser(String firstName, String lastName, String email, String password)
+    private void registerUser(String firstName, String lastName, String email, String password) throws Exception
     {
         RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
         String url = String.format("%1$s%2$s",getEndpoint(),"/registration/adduser");
 
         User user = null;
-        try
-        {
-            user= new User();
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setEmail(email);
-            user.setPassword(Encryption.EncryptToByteArray(password));
-        }
-        catch(Exception e)
-        {
-            this.handleException(e,true);
-        }
+        user= new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(Encryption.EncryptToByteArray(password));
+
         Gson gson = new Gson();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,gson.toJson(user),new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try
                 {
-                    //inicializar la sesion
+                    //en este punto el usuario esta registrado hay que inicializar la sesion
                     session.setUser(response);
                     if (response.isNull("CurrentProgram"))
                     {

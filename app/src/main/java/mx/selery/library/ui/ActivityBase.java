@@ -8,8 +8,8 @@ import mx.selery.library.utility.StringHelper;
 /**
  * Created by htorres on 09/02/2016.
  */
-public class ActivityBase extends AppCompatActivity {
-
+public class ActivityBase extends AppCompatActivity
+{
 
     public String getEndpoint() {
         return StringHelper.getValueFromResourceCode("endpoint",getApplicationContext());

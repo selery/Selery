@@ -14,32 +14,33 @@
     <string name="misc_Alert">Alerta</string>
 
     <!--Registration-->
-    <string name="registration_register">Registrarme</string>
-    <string name="registration_email_registration">E-mail</string>
-    <string name="registration_login">Ya tengo cuenta</string>
-    <string name="registration_first_name">Nombre</string>
-    <string name="registration_last_name">Apellido</string>
-    <string name="registration_email">Email</string>
-    <string name="registration_password">Password</string>
-    <string name="registration_confirm_password">Confirmar password</string>
-    <string name="registration_user_exists">El usuario ya está registrado.</string>
-    <string name="registration_invalid_email">El email no es válido</string>
-    <string name="registration_password_mismatch">Password y Confirmar password no son iguales</string>
-    <string name="registration_user_create_error">Error al registrar el usuario</string>
-    <string name="registration_error">Ha ocurrido un error</string>
-    <string name="registration_program_select">Llegó la hora de elegir un PROGRAMA que te ayude a completar tu meta</string>
+    <string name="reg_register">Registrarme</string>
+    <string name="reg_email_registration">E-mail</string>
+    <string name="reg_login">Ya tengo cuenta</string>
+    <string name="reg_first_name">Nombre</string>
+    <string name="reg_last_name">Apellido</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_password">Password</string>
+    <string name="reg_confirm_password">Confirmar password</string>
+    <string name="reg_user_exists">El usuario ya está registrado.</string>
+    <string name="reg_invalid_email">El email no es válido</string>
+    <string name="reg_password_mismatch">Password y Confirmar password no son iguales</string>
+    <string name="reg_user_create_error">Error al registrar el usuario</string>
+    <string name="reg_error">Ha ocurrido un error</string>
+    <string name="reg_program_select">Llegó la hora de elegir un PROGRAMA que te ayude a completar tu meta</string>
     <string name="reg_program_change_question">Actualmente tiene un programa pendiente de iniciar, desea cambiar de programa?</string>
 
     <!--Workout-->
     <string name="wkt_program_item_BGColor">#00C7BE</string>
     <string name="wkt_program_item_BGAlternateColor">#1DA1CA</string>
-    <string name="wkt_activity_program_list">Programas</string>
-    <string name="wkt_activity_program_select">Seleccione un programa</string>
+    <string name="wkt_title_activity_program_list">Programas</string>
+    <string name="wkt_title_activity_program_select">Seleccione un programa</string>
+    <string name="wkt_title_activity_program_start">Inciar el programa</string>
     <string name="wkt_select_program">Elegir este programa</string>
     <string name="wkt_select_program_text1">Actualmente hay</string>
     <string name="wkt_select_program_text2">perosona(s) en este reto.</string>
     <string name="wkt_duration">Duración :</string>
-    <string name="title_activity_program_start">ProgramStart</string>
+
 
 
 </resources>
