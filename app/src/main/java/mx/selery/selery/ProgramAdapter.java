@@ -62,8 +62,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
                 intent.putExtra("Position", getAdapterPosition());
                 intent.putExtra("Program",this.program.toString());
                 v.getContext().startActivity(intent);
-                //Toast.makeText(v.getContext(), "Posicion: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(v.getContext(), "ProgramID: " + this.program.getString(("ProgramID")), Toast.LENGTH_SHORT).show();
             }
             catch(Exception ex)
             {
