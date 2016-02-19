@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by htorres on 09/02/2016.
  */
-public abstract class ActivityFormBase extends ActivityBase {
+public class ActivityFormBase extends ActivityBase {
 
     protected List<IValidator> ruleSet = new ArrayList<IValidator>();
 
@@ -16,7 +16,10 @@ public abstract class ActivityFormBase extends ActivityBase {
         initializeFormFields();
     }
 
-    protected abstract void initializeFormFields();
+    protected  void initializeFormFields()
+    {
+
+    }
 
     protected void addValidator(IValidator v)	{
         ruleSet.add(v);

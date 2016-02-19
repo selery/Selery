@@ -47,8 +47,6 @@ public class EmailRegistrationActivity extends ActivityFormBase {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_email_registration);
 
-
-
             final Button registerButton = (Button) findViewById(R.id.button_register);
 
             registerButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +110,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                                 }
                                 else
                                 {
-                                    reportTransient(StringHelper.getValueFromResourceCode("registration_user_exists", EmailRegistrationActivity.this.getBaseContext()));
+                                    reportTransient(StringHelper.getValueFromResourceCode("reg_user_exists", EmailRegistrationActivity.this.getBaseContext()));
                                 }
                             } catch (Exception e) {
                                 handleException(e, true);

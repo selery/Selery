@@ -38,6 +38,7 @@ public class ProgramSelectActivity extends ActivitySecure {
             super.onCreate(savedInstanceState);
             if(!userIsLoggedIn)
             {
+                finish();
                 this.LoginRedirect();
                 return;
             }

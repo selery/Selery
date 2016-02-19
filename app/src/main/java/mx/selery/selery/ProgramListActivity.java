@@ -19,7 +19,7 @@ import org.json.JSONArray;
 import mx.selery.library.ui.ActivitySecure;
 import mx.selery.library.utility.StringHelper;
 
-public  class ProgramListActivity extends ActivitySecure {
+public class ProgramListActivity extends ActivitySecure {
 
     private RecyclerView recycler;
     private RecyclerView.Adapter adapter;
@@ -35,6 +35,7 @@ public  class ProgramListActivity extends ActivitySecure {
             super.onCreate(savedInstanceState);
             if(!userIsLoggedIn)
             {
+                finish();
                 this.LoginRedirect();
                 return;
             }
@@ -105,10 +106,5 @@ public  class ProgramListActivity extends ActivitySecure {
 
     }
 
-    @Override
-    protected void initializeFormFields()
-    {
-
-    }
 
 }

@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import mx.selery.library.security.UserSessionManager;
+import mx.selery.library.ui.ActivityBase;
 import mx.selery.library.utility.StringHelper;
 
 /**
@@ -65,7 +66,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             }
             catch(Exception ex)
             {
-
+                ActivityBase.handleException(ex);
             }
 
         }

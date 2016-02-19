@@ -1,5 +1,6 @@
 package mx.selery.library.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,25 +24,28 @@ public class ActivityBase extends AppCompatActivity
         return StringHelper.getValueFromResourceCode("endpoint",getApplicationContext());
     }
 
-
-
     public void reportTransient(String message) {
         reportTransient(null, message);
     }
 
     public void reportTransient(String message, MessageType messageType)
     {
-        reportTransient(null,message,messageType);
+        reportTransient(null,message,messageType,getApplicationContext());
     }
 
     public void reportTransient(String tag, String message) {
-        reportTransient(tag,message,null);
+        reportTransient(tag, message, null,getApplicationContext());
     }
 
-    public void reportTransient(String tag, String message, MessageType messageType)
+    public static void reportTransient(String message, MessageType messageType, Context context)
+    {
+        reportTransient(null, message, messageType, context);
+    }
+
+    public static void reportTransient(String tag, String message, MessageType messageType, Context context)
     {
         String s = !TextUtils.isEmpty(tag) ? String.format("%1$s:%2$s", tag, message): message;
-        Toast toast = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, s, Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -62,31 +66,38 @@ public class ActivityBase extends AppCompatActivity
     }
     public AlertDialog alertBox(String title,String message,String positiveButton,MessageType messageType)
     {
-        return alertBox(title,message,positiveButton,null,null,null,messageType);
+        return alertBox(title, message, positiveButton, null, null, null, messageType);
     }
 
-    public void handleException(Exception ex, Boolean show) {
-        if (show) {
-            String error = String.format("%1$s:%2$s", StringHelper.getValueFromResourceCode("misc_error", getApplicationContext()), ex.getMessage());
-            reportTransient(error,MessageType.Error);
-        }
-        this.handleException(ex);
+    public void handleException(Exception ex, Boolean show)
+    {
+        if (show) reportTransient(ex.getMessage(),MessageType.Error);
+        handleException(ex);
     }
 
-    public void handleException(Exception ex) {
+    public void handleException(String ex, Boolean show)
+    {
+        if (show) reportTransient(ex,MessageType.Error);
+        handleException(ex);
+    }
+
+    public static void handleException(Exception ex, Boolean show, Context context)
+    {
+        if (show) reportTransient(ex.getMessage(),MessageType.Error,context);
+        handleException(ex);
+    }
+
+    public static void handleException(Exception ex)
+    {
+        handleException(ex,false,null);
+    }
+
+    public static void handleException(String ex)
+    {
 
     }
 
-    public void handleException(String ex, Boolean show) {
-        if (show) {
-            String error = String.format("%1$s : %2$s", StringHelper.getValueFromResourceCode("misc_error", getApplicationContext()), ex);
-            reportTransient(error,MessageType.Error);
-        }
-        this.handleException(ex);
-    }
 
-    public void handleException(String ex) {
 
-    }
 
 }

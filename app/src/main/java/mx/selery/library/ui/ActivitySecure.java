@@ -10,7 +10,7 @@ import mx.selery.selery.RegistrationActivity;
 /**
  * Created by htorres on 17/02/2016.
  */
-public abstract class ActivitySecure extends ActivityFormBase
+public class ActivitySecure extends ActivityFormBase
 {
     protected UserSessionManager session;
     protected Boolean userIsLoggedIn=false;
