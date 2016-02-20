@@ -39,6 +39,7 @@
             android:name=".ProgramStartActivity"
             android:label="@string/wkt_title_activity_program_start"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

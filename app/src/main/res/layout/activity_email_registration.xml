@@ -85,7 +85,7 @@
     <Button
         android:id="@+id/button_register"
         android:text="@string/reg_register"
-        android:onClick="RegisterButtoClick"
+        android:textAllCaps="false"
         android:layout_gravity="center_horizontal"
         style="@style/button3" />
 </LinearLayout>

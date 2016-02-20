@@ -184,8 +184,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
         RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
         String url = String.format("%1$s%2$s",getEndpoint(),"/registration/adduser");
 
-        User user = null;
-        user= new User();
+        User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);

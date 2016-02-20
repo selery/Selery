@@ -94,7 +94,7 @@ public class ActivityBase extends AppCompatActivity
 
     public static void handleException(String ex)
     {
-
+        int x=0;
     }
 
 

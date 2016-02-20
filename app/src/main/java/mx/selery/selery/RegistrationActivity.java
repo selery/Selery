@@ -26,5 +26,15 @@ public class RegistrationActivity extends ActivityBase {
             }
         });
 
+        final Button button_login= (Button) findViewById(R.id.button_login);
+        button_login.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

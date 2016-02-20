@@ -13,6 +13,7 @@
     <string name="misc_No">No</string>
     <string name="misc_Alert">Alerta</string>
 
+
     <!--Registration-->
     <string name="reg_register">Registrarme</string>
     <string name="reg_email_registration">E-mail</string>
@@ -29,6 +30,9 @@
     <string name="reg_error">Ha ocurrido un error</string>
     <string name="reg_program_select">Llegó la hora de elegir un PROGRAMA que te ayude a completar tu meta</string>
     <string name="reg_program_change_question">Actualmente tiene un programa pendiente de iniciar, desea cambiar de programa?</string>
+    <string name="reg_email_login">Ingresar con mi email</string>
+    <string name="reg_access_denied">Acceso denegado.</string>
+
 
     <!--Workout-->
     <string name="wkt_program_item_BGColor">#00C7BE</string>
@@ -40,7 +44,6 @@
     <string name="wkt_select_program_text1">Actualmente hay</string>
     <string name="wkt_select_program_text2">perosona(s) en este reto.</string>
     <string name="wkt_duration">Duración :</string>
-
 
 
 </resources>
