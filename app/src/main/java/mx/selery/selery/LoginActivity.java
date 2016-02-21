@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import mx.selery.entity.Credentials;
 import mx.selery.entity.User;
 import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.ui.ActivityFormBase;
@@ -78,15 +79,15 @@ public class LoginActivity extends ActivityFormBase {
                         Caso 2. el progrqama tiene un programa seleccionado pero no esta inicializado -> ir a ProgramStartActivity
                         Caso 3. el usuario tiene un programa en progreso->ir a HomeActivity
                         */
-                        User user = new User();
-                        user.setEmail(email.getText().toString());
-                        user.setPassword(Encryption.EncryptToByteArray(password.getText().toString()));
+                        Credentials credentials = new Credentials();
+                        credentials.setEmail(email.getText().toString());
+                        credentials.setPassword(Encryption.EncryptToByteArray(password.getText().toString()));
 
 
                         RequestQueue queue = Volley.newRequestQueue(v.getContext());
-                        String url = String.format("%1$s/registration/loginbyemail", getEndpoint());
+                        String url = String.format("%1$s/registration/login", getEndpoint());
                         Gson gson = new Gson();
-                        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,gson.toJson(user),new Response.Listener<JSONObject>() {
+                        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,gson.toJson(credentials),new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try
@@ -105,10 +106,13 @@ public class LoginActivity extends ActivityFormBase {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                handleException(error.toString(),true);
+                                /*
                                 if (error.networkResponse!=null && error.networkResponse.statusCode==404)
                                      reportTransient(StringHelper.getValueFromResourceCode("reg_access_denied", getBaseContext()));
                                 else
                                     handleException(String.format("Error:%1$s HttpStatusCode:%2$s", error.toString(), error.networkResponse!=null ? error.networkResponse.statusCode:null),true);
+                                */
                             }
                         }
 
