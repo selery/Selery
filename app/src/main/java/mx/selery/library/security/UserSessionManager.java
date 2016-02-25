@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.support.v4.app.NotificationCompatSideChannelService;
 
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.jar.JarEntry;
 
 import mx.selery.entity.User;
 import mx.selery.selery.RegistrationActivity;
@@ -22,130 +24,53 @@ import mx.selery.selery.RegistrationActivity;
 public class UserSessionManager
 {
 
-    SharedPreferences _prefs;
-    // Shared Preferences reference
-    SharedPreferences pref;
-
-    // Editor reference for Shared preferences
-    Editor editor;
-
-    // Context
-    Context _context;
-
-    // Shared pref mode
-    int PRIVATE_MODE = 0;
-
-    // Sharedpref file name
+    private static UserSessionManager SESSION; //singleton object
+    private SharedPreferences pref;
+    private Editor editor;
+    private Context _context;
+    private static final String USER_SESION ="USER_SESION";
+    private int PRIVATE_MODE = 0;
     private static final String PREFER_NAME = "AndroidPref";
+    private Gson gson;
+    private User user;
 
-    // All Shared Preferences Keys
-    private static final String IS_USER_LOGIN = "IsUserLoggedIn";
-
-    // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
-
-    // Email address (make variable public to access from outside)
-    public static final String KEY_ID = "id";
-
-    public static final String USER_SESION ="USER_SESION";
-
-    private JSONObject user;
-    public JSONObject getUser()
+    public static UserSessionManager getSessionInstnce(Context context)
     {
-        if(this.user!=null) return this.user;
-        try
-        {
-            this.user= new JSONObject(pref.getString(USER_SESION,null));
-        }
-        catch(Exception ex)
-        {
-            this.user=null;
-        }
-        return this.user;
+        if (SESSION!= null)
+            return SESSION;
+
+        SESSION = new UserSessionManager(context);
+        return SESSION;
     }
-    public void setUser(JSONObject user) {
+
+    public User getUser() throws  Exception
+    {
+        if (this.user!=null) return this.user;
+        if(pref.getString(USER_SESION, null)==null) return null;
+        return gson.fromJson(pref.getString(USER_SESION, null),User.class);
+    }
+
+    public void setUser(User user) {
         this.user=user;
-        editor.putString(USER_SESION, this.user.toString());
+        editor.putString(USER_SESION, gson.toJson(user));
         editor.commit();
     }
-
-
 
     // Constructor
     public UserSessionManager(Context context){
+        gson= new Gson();
         this._context = context;
         pref = _context.getSharedPreferences(PREFER_NAME, PRIVATE_MODE);
         editor = pref.edit();
-    }
 
-    //Create login session
-    public void createUserLoginSession(String name, String id){
-        // Storing login value as TRUE
-        editor.putBoolean(IS_USER_LOGIN, true);
-
-        // Storing name in pref
-        editor.putString(KEY_NAME, name);
-
-        // Storing email in pref
-        editor.putString(KEY_ID, id);
-
-        // commit changes
-        editor.commit();
-    }
-
-    public void createUserLoginSession(JSONObject user)
-    {
-        editor.putBoolean(IS_USER_LOGIN, true);
-        editor.putString(USER_SESION, user.toString());
-        editor.commit();
-    }
-
-    /**
-     * Sino esta logeado redireccionarlo a registro
-     * */
-    public boolean checkLogin(){
-        // Check login status
-        if(!this.isUserLoggedIn()){
-
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, RegistrationActivity.class);
-
-            // Closing all the Activities from stack
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            // Staring Login Activity
-            _context.startActivity(i);
-
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get stored session data
-     * */
-    public HashMap<String, String> getUserDetails(){
-
-        //Use hashmap to store user credentials
-        HashMap<String, String> user = new HashMap<String, String>();
-
-        // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
-
-        // user email id
-        user.put(KEY_ID, pref.getString(KEY_ID, null));
-
-        // return user
-        return user;
     }
 
     /**
      * Clear session details
      * */
     public void logoutUser(){
+
+        user=null;
 
         // Clearing all user data from Shared Preferences
         editor.clear();
@@ -162,12 +87,6 @@ public class UserSessionManager
 
         // Staring Login Activity
         _context.startActivity(i);
-    }
-
-
-    // Check for login
-    public boolean isUserLoggedIn(){
-        return pref.getBoolean(IS_USER_LOGIN, false);
     }
 
 }

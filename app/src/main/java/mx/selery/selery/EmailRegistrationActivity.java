@@ -8,18 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import mx.selery.entity.User;
+import mx.selery.library.io.SeleryApiAdapter;
 import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.ui.ActivityFormBase;
 import mx.selery.library.ui.EmailValidator;
@@ -37,7 +31,6 @@ public class EmailRegistrationActivity extends ActivityFormBase {
     private TextView password=null;
     private TextView confirmPassword=null;
     private TextView email=null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,46 +84,43 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                         return;
                     }
 
-                    RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
                     final ProgressDialog dialog = ProgressDialog.show(EmailRegistrationActivity.this,
                             StringHelper.getValueFromResourceCode("app_name", EmailRegistrationActivity.this.getBaseContext()),
                             StringHelper.getValueFromResourceCode("misc_please_wait", EmailRegistrationActivity.this.getBaseContext()));
 
                     //Validar que el email no exista
-                    String url = String.format("%1$s%2$s%3$s",getEndpoint(),"/registration/finduserbyemail?email=",email.getText());
-                    StringRequest req = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    Callback callback = new Callback<User>() {
                         @Override
-                        public void onResponse(String response) {
-                            try {
-                                int userID = Integer.parseInt(response.toString());
-                                if (userID == 0)
+                        public void success(User user, Response response) {
+                            //el usuario existe no podemos continuar
+                            dialog.cancel();
+                            reportTransient(StringHelper.getValueFromResourceCode("reg_user_exists", EmailRegistrationActivity.this.getBaseContext()));
+                        }
+
+                        @Override
+                        public void failure(RetrofitError retrofitError) {
+                            dialog.cancel();
+                            if (retrofitError.getResponse().getStatus()==404)
+                            {
+                                //el usuario no existe continuar con el registro
+                                try
                                 {
-                                    //el usuario no existe
                                     registerUser(firstName.getText().toString(),lastName.getText().toString(),email.getText().toString(),password.getText().toString());
                                 }
-                                else
+                                catch(Exception ex)
                                 {
-                                    reportTransient(StringHelper.getValueFromResourceCode("reg_user_exists", EmailRegistrationActivity.this.getBaseContext()));
+                                    handleException(ex, true);
                                 }
-                            } catch (Exception e) {
-                                handleException(e, true);
-                            } finally {
-                                dialog.cancel();
+
+                            }
+                            else
+                            {
+                                handleException(retrofitError.getMessage(),true);
                             }
 
                         }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            handleException(error.toString(), true);
-                            dialog.cancel();
-                        }
-                    }
-
-                    );
-
-                    queue.add(req);
-
+                    };
+                    SeleryApiAdapter.getApiService().getUserByEmail(email.getText().toString(),callback);
                 }
             });
         }
@@ -181,47 +171,37 @@ public class EmailRegistrationActivity extends ActivityFormBase {
 
     private void registerUser(String firstName, String lastName, String email, String password) throws Exception
     {
-        RequestQueue queue = Volley.newRequestQueue(EmailRegistrationActivity.this.getBaseContext());
-        String url = String.format("%1$s%2$s",getEndpoint(),"/registration/adduser");
 
+        Callback callback = new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                try
+                {
+                    UserSessionManager session= UserSessionManager.getSessionInstnce(getBaseContext());
+                    session.setUser(user);
+
+                    //ir a seleccionar el programa
+                    Intent intenet = new Intent().setClass(getBaseContext(), ProgramListActivity.class);
+                    startActivity(intenet);
+                }
+                catch(Exception ex)
+                {
+                    handleException(ex,true);
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                handleException(retrofitError.getMessage(),true);
+            }
+        };
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
         user.setPassword(Encryption.EncryptToByteArray(password));
-
-        Gson gson = new Gson();
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,gson.toJson(user),new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try
-                {
-                    //en este punto el usuario esta registrado hay que inicializar la sesion
-                    UserSessionManager session;
-                    session = new UserSessionManager(getApplicationContext());
-                    session.setUser(response);
-
-                     //ir a seleccionar el programa
-                     Intent intenet = new Intent().setClass(EmailRegistrationActivity.this, ProgramListActivity.class);
-                     startActivity(intenet);
-
-                }
-                catch(Exception e)
-                {
-                    handleException(e,true);
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleException(error.toString(),true);
-            }
-        }
-
-        );
-
-        queue.add(req);
+        SeleryApiAdapter.getApiService().createUser(user,callback);
 
     }
 

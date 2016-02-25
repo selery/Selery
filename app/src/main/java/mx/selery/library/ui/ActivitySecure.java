@@ -18,13 +18,21 @@ public class ActivitySecure extends ActivityFormBase
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        session= new UserSessionManager(getBaseContext());
-        if(this.session.getUser()!=null)
+        try
         {
-            userIsLoggedIn=true;
+            super.onCreate(savedInstanceState);
+            session= UserSessionManager.getSessionInstnce(getBaseContext());
+            if(this.session.getUser()!=null)
+            {
+                userIsLoggedIn=true;
 
+            }
         }
+        catch(Exception ex)
+        {
+            handleException(ex,true);
+        }
+
     }
 
     protected void LoginRedirect()

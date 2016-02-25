@@ -1,39 +1,72 @@
 package mx.selery.entity;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
  * Created by Horacio Torres on 28/01/2016.
  */
+
 public class User {
 
-    public int userID;
-    public long facebookID;
-    public String firstName;
-    public String lastName;
-    public String email;
-    public byte[] password;
-    String resetPasswordToken;
-    Date resetPasswordRequestDate;
-    public int gender;
-    public Date birthDate;
-    public Double heigh;
-    public int heighInt;
-    public int heighDec;
-    public int activityID;
-    public String description;
-    public Date activationDate;
-    public Date terminationDate;
-    public Boolean isApproved;
-    public Boolean isLockedOut;
-    public Date lastLoginDate;
-    public Date createDate;
-    public int createdBy;
-    public Date lastUpdatedDate;
-    public int lastUpdatedBy;
-    public Boolean isProfileComplete;
-    public Double bmi;
-    public Double calories;
-    public Double weight;
+    @SerializedName("UserID")
+    private int userID;
+    @SerializedName("FacebookID")
+    private long facebookID;
+    @SerializedName("FirstName")
+    private String firstName;
+    @SerializedName("LastName")
+    private String lastName;
+    @SerializedName("Email")
+    private String email;
+    @SerializedName("Password")
+    private byte[] password;
+    @SerializedName("ResetPasswordToken")
+    private String resetPasswordToken;
+    @SerializedName("ResetPasswordRequestDate")
+    private Date resetPasswordRequestDate;
+    @SerializedName("Gender")
+    private int gender;
+    @SerializedName("BirthDate")
+    private Date birthDate;
+    @SerializedName("Heigh")
+    private Double heigh;
+    @SerializedName("HeighInt")
+    private int heighInt;
+    @SerializedName("HeighDec")
+    private int heighDec;
+    @SerializedName("ActivityID")
+    private int activityID;
+    @SerializedName("Description")
+    private String description;
+    @SerializedName("ActivationDate")
+    private Date activationDate;
+    @SerializedName("TerminationDate")
+    private Date terminationDate;
+    @SerializedName("IsApproved")
+    private Boolean isApproved;
+    @SerializedName("IsLockedOut")
+    private Boolean isLockedOut;
+    @SerializedName("LastLoginDate")
+    private Date lastLoginDate;
+    @SerializedName("CreateDate")
+    private Date createDate;
+    @SerializedName("CreatedBy")
+    private int createdBy;
+    @SerializedName("LastUpdatedDate")
+    private Date lastUpdatedDate;
+    @SerializedName("LastUpdatedBy")
+    private int lastUpdatedBy;
+    @SerializedName("CurrentProgram")
+    private UserProgram currentProgram;
+    @SerializedName("IsProfileComplete")
+    private Boolean isProfileComplete;
+    @SerializedName("BMI")
+    private Double bmi;
+    @SerializedName("Calories")
+    private Double calories;
+    @SerializedName("Weight")
+    private Double weight;
 
     public int getUserID() {
         return userID;
@@ -225,6 +258,14 @@ public class User {
 
     public void setLastUpdatedBy(int lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public UserProgram getCurrentProgram() {
+        return currentProgram;
+    }
+
+    public void setCurrentProgram(UserProgram userProgram) {
+        this.currentProgram = userProgram;
     }
 
     public Boolean getIsProfileComplete() {

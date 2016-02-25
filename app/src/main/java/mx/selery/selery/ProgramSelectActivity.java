@@ -10,26 +10,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
-import org.json.JSONObject;
+import mx.selery.entity.UserProgram;
+import mx.selery.library.io.SeleryApiAdapter;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
-import java.io.UnsupportedEncodingException;
-
-import mx.selery.library.security.UserSessionManager;
-import mx.selery.library.ui.ActivityFormBase;
+import mx.selery.entity.Program;
 import mx.selery.library.ui.ActivitySecure;
 import mx.selery.library.utility.StringHelper;
 
 public class ProgramSelectActivity extends ActivitySecure {
 
     private int position=0;
-    private JSONObject program;
+    private Program program;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +39,10 @@ public class ProgramSelectActivity extends ActivitySecure {
                 return;
             }
             setContentView(R.layout.activity_program_select);
-
-            this.session = new UserSessionManager(getApplicationContext());
             position = getIntent().getIntExtra("Position",0);
-            program=new JSONObject(getIntent().getStringExtra("Program"));
+            //return gson.fromJson(pref.getString(USER_SESION, null),User.class);
+            Gson gson = new Gson();
+            program =  gson.fromJson(getIntent().getStringExtra("Program"),Program.class);
             if(position>0)
             {
                 LinearLayout layout_program = (LinearLayout) findViewById(R.id.layout_program);
@@ -59,23 +55,23 @@ public class ProgramSelectActivity extends ActivitySecure {
             TextView text_users_in_program = (TextView) findViewById(R.id.text_users_in_program);
             text_users_in_program.setText(String.format("%1$s %2$s %3$s",
                     StringHelper.getValueFromResourceCode("wkt_select_program_text1", this.getBaseContext()),
-                    program.getString("UsersInProgram"),
+                    program.getUsersInProgram(),
                     StringHelper.getValueFromResourceCode("wkt_select_program_text2", this.getBaseContext())));
 
             TextView text_program_name = (TextView) findViewById(R.id.text_program_name);
-            text_program_name.setText(program.getString("Name"));
+            text_program_name.setText(program.getName());
 
             TextView text_description = (TextView) findViewById(R.id.text_description);
-            text_description.setText(program.getString("Description"));
+            text_description.setText(program.getDescription());
 
             TextView text_long_description = (TextView) findViewById(R.id.text_long_description);
-            text_long_description.setText(program.getString("LongDescription"));
+            text_long_description.setText(program.getLongDescription());
 
             TextView text_duration = (TextView) findViewById(R.id.text_duration);
-            String duration=String.format("%1$s %2$s %3$s",
+            String duration = String.format("%1$s %2$s %3$s",
                     StringHelper.getValueFromResourceCode("wkt_duration", this.getBaseContext()),
-                    program.getString("Duration"),
-                    StringHelper.getValueFromResourceCode(program.getString("UnitOfMeasureCode"), this.getBaseContext()));
+                    program.getDuration(),
+                    StringHelper.getValueFromResourceCode(program.getUnitOfMeasureCode(), this.getBaseContext()));
             text_duration.setText(duration);
 
             final Button button_select_program = (Button) findViewById(R.id.button_select_program);
@@ -113,70 +109,56 @@ public class ProgramSelectActivity extends ActivitySecure {
     {
         //si el usuario ya tiene un programa que no esta en progreso y es diferente al que selecciono
         //hay que confirmar si quiere cambiarlo
-        JSONObject program = !this.session.getUser().isNull("Program") ? this.session.getUser().getJSONObject("Program") : null;
-        if (program != null && program.getString("ProgramID") != this.program.getString("ProgramID") && !program.getBoolean("OnProgress"))
+        //note que la lista no muestra el programa que esta en progreso, este no lo puede seleccionar
+        UserProgram currentProgram = session.getUser().getCurrentProgram();
+        if (currentProgram != null )
         {
+            if(!currentProgram.getOnProgress())
+            {
+                AlertDialog dialog = alertBox(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()),
+                        StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()),
+                        StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()),
+                        StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //YES - cambiar el programa
+                                //ir a ProgramStart
+                                dialog.dismiss();
+                            }
+                        }
+                        ,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //ir a ProgramStart sin cambiarlo
+                                dialog.dismiss();
+                            }
+                        },
+                        MessageType.Question);
+                dialog.show();
+            }
+            else
+            {
+                //TODO:si el programa esta en progreso debe de cancelarlo para poder cambiarlo
+            }
 
-            AlertDialog dialog = alertBox(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()),
-                    StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()),
-                    StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()),
-                    StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //ir a ProgramStart
-                            dialog.dismiss();
-                        }
-                    }
-                    ,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //ir a ProgramStart
-                            dialog.dismiss();
-                        }
-                    },
-                    MessageType.Question);
-            dialog.show();
         }
         else
         {
-            //registrar el programa
-            RequestQueue queue = Volley.newRequestQueue(this.getBaseContext());
-            String url = String.format("%1$s/workout/userprograminsert?userID=%2$s",
-                    getEndpoint(),
-                    this.session.getUser().getString("UserID"));
-            //final String programID = this.program.getString("ProgramID");
-            final JSONObject selectedProgram = this.program;
-            JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
+            Callback callback = new Callback<UserProgram>() {
                 @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
-                        startActivity(intenet);
-                    } catch (Exception e) {
-                        handleException(e, true);
-                    }
+                public void success(UserProgram userProgram, Response response) {
+                    Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
+                    startActivity(intenet);
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    handleException(error.toString(), true);
 
-                }
-            }
-
-            ) {
                 @Override
-                public byte[] getBody() {
-                    try {
-                        return selectedProgram.toString().getBytes("UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
+                public void failure(RetrofitError retrofitError) {
+                    handleException(retrofitError.toString(),true);
+
                 }
             };
+            SeleryApiAdapter.getApiService().setProgram(session.getUser().getUserID(),this.program,callback);
 
-            queue.add(req);
         }
 
 

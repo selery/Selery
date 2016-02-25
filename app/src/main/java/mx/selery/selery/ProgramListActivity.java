@@ -7,14 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
+
+import java.util.List;
+
+import mx.selery.entity.Program;
+import mx.selery.entity.User;
+import mx.selery.library.io.SeleryApiAdapter;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import mx.selery.library.ui.ActivitySecure;
 import mx.selery.library.utility.StringHelper;
@@ -42,7 +44,7 @@ public class ProgramListActivity extends ActivitySecure {
             setContentView(R.layout.activity_program_list);
             String greeting = String.format ("%1$s %2$s%3$s",
                     StringHelper.getValueFromResourceCode("misc_hello", ProgramListActivity.this.getBaseContext()),
-                    session.getUser().getString("FirstName"),
+                    session.getUser().getFirstName(),
                     StringHelper.getValueFromResourceCode("misc_admiration", ProgramListActivity.this.getBaseContext()));
 
             ((TextView)findViewById(R.id.text_greeting)).setText(greeting);
@@ -58,16 +60,13 @@ public class ProgramListActivity extends ActivitySecure {
             linearLayoutManager = new LinearLayoutManager(this);
             recycler.setLayoutManager(linearLayoutManager);
 
-            //TODO: no incluir el programa actiov del usuario que esta en progreso (si existiera)
-            RequestQueue queue = Volley.newRequestQueue(ProgramListActivity.this.getBaseContext());
-            String url = String.format("%1$s%2$s%3$s",getEndpoint(),"/workout/getavailableprograms?UserID=",this.session.getUser().getString("UserID"));
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url,new Response.Listener<JSONArray>() {
+            Callback callback = new Callback<List<Program>>() {
                 @Override
-                public void onResponse(JSONArray response) {
+                public void success(List<Program> programs, Response response) {
                     try
                     {
                         // Crear un nuevo adaptador
-                        adapter = new ProgramAdapter(response);
+                        adapter = new ProgramAdapter(programs);
 
                         recycler.setAdapter(adapter);
                     }
@@ -77,16 +76,12 @@ public class ProgramListActivity extends ActivitySecure {
                     }
                 }
 
-            }, new Response.ErrorListener() {
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    handleException(error.toString(),true);
+                public void failure(RetrofitError retrofitError) {
+                    handleException(retrofitError.toString());
                 }
-            }
-
-            );
-
-            queue.add(req);
+            };
+            SeleryApiAdapter.getApiService().getAvailablePrograms(this.session.getUser().getUserID(), callback);
 
         }
         catch(Exception e)

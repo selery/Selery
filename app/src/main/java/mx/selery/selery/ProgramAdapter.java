@@ -14,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;
 
+import mx.selery.entity.Program;
 import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.ui.ActivityBase;
 import mx.selery.library.utility.StringHelper;
@@ -29,7 +32,7 @@ import mx.selery.library.utility.StringHelper;
  */
 public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramViewHolder>  {
 
-    private JSONArray items;
+    private List<Program> items;
     private UserSessionManager session;
     private Context context;
 
@@ -41,7 +44,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         public TextView selectedProgram;
         public TextView duration;
         public RelativeLayout rlayout;
-        public JSONObject program;
+        public Program program;
 
         public ProgramViewHolder(View v) {
             super(v);
@@ -59,9 +62,10 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         public void onClick(View v) {
             try
             {
+                Gson gson = new Gson();
                 Intent intent = new Intent().setClass(v.getContext(), ProgramSelectActivity.class);
                 intent.putExtra("Position", getAdapterPosition());
-                intent.putExtra("Program",this.program.toString());
+                intent.putExtra("Program",gson.toJson(this.program));
                 v.getContext().startActivity(intent);
             }
             catch(Exception ex)
@@ -73,13 +77,13 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
 
     }
 
-    public ProgramAdapter(JSONArray items) {
+    public ProgramAdapter(List<Program> items) {
         this.items = items;
     }
 
     @Override
     public int getItemCount() {
-        return items.length();
+        return items.size();
     }
 
     @Override
@@ -94,18 +98,18 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
     public void onBindViewHolder(ProgramViewHolder viewHolder, int i) {
         try
         {
-            String unitOfMeasureTex = StringHelper.getValueFromResourceCode(items.getJSONObject(i).getString("UnitOfMeasureCode"), this.context);
+            String unitOfMeasureTex = StringHelper.getValueFromResourceCode(items.get(i).getUnitOfMeasureCode(), this.context);
             if (i % 2 == 0)
                 viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGColor));
 
             else
                 viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGAlternateColor));
 
-            viewHolder.program=items.getJSONObject(i);
+            viewHolder.program=items.get(i);
             viewHolder.programImage.setImageResource(R.mipmap.ic_seleryprograma);
-            viewHolder.programName.setText(items.getJSONObject(i).getString("Name"));
-            viewHolder.description.setText(items.getJSONObject(i).getString("Description"));
-            viewHolder.duration.setText(String.format("%1$s %2$s",items.getJSONObject(i).getString("Duration"),unitOfMeasureTex));
+            viewHolder.programName.setText(items.get(i).getName());
+            viewHolder.description.setText(items.get(i).getDescription());
+            viewHolder.duration.setText(String.format("%1$s %2$s",items.get(i).getDuration(),unitOfMeasureTex));
 
             /*if (!session.getUser().isNull("CurrentProgram") &&
                     session.getUser().getJSONObject("CurrentProgram").getString("ProgramID")==items.get(i).getString("ProgramID") &&
