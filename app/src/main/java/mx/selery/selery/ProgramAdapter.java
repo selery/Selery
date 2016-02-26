@@ -111,13 +111,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             viewHolder.description.setText(items.get(i).getDescription());
             viewHolder.duration.setText(String.format("%1$s %2$s",items.get(i).getDuration(),unitOfMeasureTex));
 
-            /*if (!session.getUser().isNull("CurrentProgram") &&
-                    session.getUser().getJSONObject("CurrentProgram").getString("ProgramID")==items.get(i).getString("ProgramID") &&
-                    session.getUser().getJSONObject("CurrentProgram").getString("StartDate")=="MinValue")
-            {
-                viewHolder.selectedProgram.setVisibility(View.VISIBLE);
-            }*/
-
         }
         catch(Exception ex)
         {

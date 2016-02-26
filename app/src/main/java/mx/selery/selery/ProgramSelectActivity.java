@@ -113,33 +113,27 @@ public class ProgramSelectActivity extends ActivitySecure {
         UserProgram currentProgram = session.getUser().getCurrentProgram();
         if (currentProgram != null )
         {
-            if(!currentProgram.getOnProgress())
-            {
-                AlertDialog dialog = alertBox(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()),
-                        StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()),
-                        StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()),
-                        StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //YES - cambiar el programa
-                                //ir a ProgramStart
-                                dialog.dismiss();
-                            }
+            //si tiene un programa, este en progreso o no lo pudede cambiar
+            AlertDialog dialog = alertBox(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()),
+                    StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()),
+                    StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()),
+                    StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //YES - cambiar el programa
+                            //ir a ProgramStart
+                            dialog.dismiss();
                         }
-                        ,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //ir a ProgramStart sin cambiarlo
-                                dialog.dismiss();
-                            }
-                        },
-                        MessageType.Question);
-                dialog.show();
-            }
-            else
-            {
-                //TODO:si el programa esta en progreso debe de cancelarlo para poder cambiarlo
-            }
+                    }
+                    ,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //ir a ProgramStart sin cambiarlo
+                            dialog.dismiss();
+                        }
+                    },
+                    MessageType.Question);
+            dialog.show();
 
         }
         else

@@ -18,6 +18,8 @@ import mx.selery.library.ui.Field;
 import mx.selery.library.ui.IValidator;
 import mx.selery.library.utility.Encryption;
 
+import mx.selery.library.utility.HttpHelper;
+import mx.selery.library.utility.StringHelper;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 
@@ -74,22 +76,40 @@ public class LoginActivity extends ActivityFormBase {
                         Callback callback = new Callback<User>() {
                             @Override
                             public void success(User user,retrofit.client.Response response) {
-                                UserSessionManager session =  UserSessionManager.getSessionInstnce(getApplicationContext());
-                                session.setUser(user);
+                                try
+                                {
+                                    UserSessionManager session =  UserSessionManager.getSessionInstnce(getApplicationContext());
+                                    session.setUser(user);
+                                    if (session.getUser().getCurrentProgram()==null)//Caso 1
+                                    {
+                                        Intent intenet = new Intent().setClass(getBaseContext(), ProgramListActivity.class);
+                                        startActivity(intenet);
+                                    }
+                                    else if(!session.getUser().getCurrentProgram().getOnProgress())//Caso 2
+                                    {
+                                        Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
+                                        startActivity(intenet);
+                                    }
+                                    else//Caso 3
+                                    {
+                                        //TODO: goto home
+                                    }
+                                }
+                                catch(Exception ex)
+                                {
 
-                                Intent intenet = new Intent().setClass(getBaseContext(), ProgramListActivity.class);
-                                startActivity(intenet);
+                                    handleException(ex,true);
+                                }
+
                             }
 
                             @Override
                             public void failure(RetrofitError retrofitError) {
-                                handleException(retrofitError.getMessage(),true);
-                                /*
-                                if (error.networkResponse!=null && error.networkResponse.statusCode==404)
-                                     reportTransient(StringHelper.getValueFromResourceCode("reg_access_denied", getBaseContext()));
+                                if (retrofitError.getResponse().getStatus()== HttpHelper.HttpStatus.NotFound.getValue())
+                                    reportTransient(StringHelper.getValueFromResourceCode("reg_access_denied", getBaseContext()));
                                 else
-                                    handleException(String.format("Error:%1$s HttpStatusCode:%2$s", error.toString(), error.networkResponse!=null ? error.networkResponse.statusCode:null),true);
-                                */
+                                    handleException(retrofitError.getMessage(),true);
+
                             }
                         };
                         SeleryApiAdapter.getApiService().login(credentials, callback);

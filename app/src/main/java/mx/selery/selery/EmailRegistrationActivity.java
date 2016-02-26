@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import mx.selery.library.utility.HttpHelper;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -100,7 +101,7 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                         @Override
                         public void failure(RetrofitError retrofitError) {
                             dialog.cancel();
-                            if (retrofitError.getResponse().getStatus()==404)
+                            if (retrofitError.getResponse().getStatus()== HttpHelper.HttpStatus.NotFound.getValue())
                             {
                                 //el usuario no existe continuar con el registro
                                 try

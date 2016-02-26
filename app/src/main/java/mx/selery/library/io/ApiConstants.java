@@ -5,4 +5,5 @@ package mx.selery.library.io;
  */
 public class ApiConstants {
     public static final String BASE_URL = "http://192.168.0.3";
+
 }
