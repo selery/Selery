@@ -3,6 +3,7 @@ package mx.selery.selery;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -44,8 +45,8 @@ public class ProgramListActivity extends ActivitySecure {
                 return;
             }
             setContentView(R.layout.activity_program_list);
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-            setSupportActionBar(myToolbar);
+            //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            //setSupportActionBar(myToolbar);
             String greeting = String.format ("%1$s %2$s%3$s",
                     StringHelper.getValueFromResourceCode("misc_hello", ProgramListActivity.this.getBaseContext()),
                     session.getUser().getFirstName(),

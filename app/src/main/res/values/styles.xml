@@ -1,7 +1,9 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--<item name="logo">@mipmap/ic_seleryheader</item>
+        <item name="displayOptions">useLogo|showHome</item>-->
         <!-- Customize your theme here.
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,8 +11,11 @@
         -->
     </style>
 
+
     <style name="AppTheme.HideTitle" parent="AppTheme">
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+
     </style>
 
     <style name="SplashTheme" parent="@style/Theme.AppCompat.Light">
@@ -28,16 +33,6 @@
         <item name="android:windowContentOverlay">@null</item>
 
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
     <style name="button">
         <item name="android:background">@drawable/button_bg</item>
@@ -66,7 +61,5 @@
         <item name="android:layout_width">242dp</item>
         <item name="android:layout_height">40dp</item>
     </style>
-
-
 
 </resources>

@@ -2,19 +2,34 @@ package mx.selery.library.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import mx.selery.library.utility.StringHelper;
+import mx.selery.selery.R;
 
 /**
  * Created by htorres on 09/02/2016.
  */
 public class ActivityBase extends AppCompatActivity
 {
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null)
+        {
+            actionBar.setDisplayUseLogoEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_seleryheader);
+        }
 
+    }
     public enum MessageType
     {
         Asterisk,Error,Exclamation,Hand,Information,None,Question,Stop,Warning

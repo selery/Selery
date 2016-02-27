@@ -37,8 +37,8 @@
 
         <activity
             android:name=".ProgramListActivity"
-            android:label="@string/wkt_title_activity_program_list"
-             />
+            android:label=""
+            />
         <activity
             android:name=".ProgramSelectActivity"
             android:label="@string/wkt_title_activity_program_select"
