@@ -32,6 +32,7 @@ public class ProgramSelectActivity extends ActivitySecure {
         try
         {
             super.onCreate(savedInstanceState);
+            this.setShowmenu(true);
             if(!userIsLoggedIn)
             {
                 finish();
@@ -40,7 +41,7 @@ public class ProgramSelectActivity extends ActivitySecure {
             }
             setContentView(R.layout.activity_program_select);
             position = getIntent().getIntExtra("Position",0);
-            //return gson.fromJson(pref.getString(USER_SESION, null),User.class);
+
             Gson gson = new Gson();
             program =  gson.fromJson(getIntent().getStringExtra("Program"),Program.class);
             if(position>0)

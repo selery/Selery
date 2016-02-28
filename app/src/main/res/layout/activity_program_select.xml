@@ -137,6 +137,7 @@
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="10dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp" />
+            android:paddingRight="5dp"
+            android:textAllCaps="false"/>
     </FrameLayout>
 </LinearLayout>

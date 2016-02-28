@@ -12,6 +12,11 @@
     <string name="misc_Yes">Si</string>
     <string name="misc_No">No</string>
     <string name="misc_Alert">Alerta</string>
+    <string name="misc_About">Acerca De</string>
+    <string name="misc_Logout">Cerrar Sesión</string>
+    <string name="misc_Settings">Ajustes</string>
+    <string name="misc_Profile">Perfil</string>
+    <string name="misc_ChangePassword">Cambiar password</string>
 
 
     <!--Registration-->

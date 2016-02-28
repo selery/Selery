@@ -7,8 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.utility.StringHelper;
 import mx.selery.selery.R;
 
@@ -17,6 +21,15 @@ import mx.selery.selery.R;
  */
 public class ActivityBase extends AppCompatActivity
 {
+    private Boolean showmenu=false;
+    public Boolean getShowmenu() {
+        return showmenu;
+    }
+
+    public void setShowmenu(Boolean showmenu) {
+        this.showmenu = showmenu;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,8 +41,35 @@ public class ActivityBase extends AppCompatActivity
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setIcon(R.mipmap.ic_seleryheader);
         }
-
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(this.showmenu)
+        {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.main_menu, menu);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.Logout:
+                UserSessionManager session =UserSessionManager.getSessionInstnce(getApplicationContext());
+                session.logoutUser();
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
+    }
+
     public enum MessageType
     {
         Asterisk,Error,Exclamation,Hand,Information,None,Question,Stop,Warning
