@@ -45,8 +45,8 @@
              />
         <activity
             android:name=".ProgramStartActivity"
-            android:label="@string/wkt_title_activity_program_start"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label=""
+            />
 
     </application>
 

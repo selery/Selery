@@ -131,6 +131,8 @@ public class ProgramSelectActivity extends ActivitySecure {
                         public void onClick(DialogInterface dialog, int which) {
                             //ir a ProgramStart sin cambiarlo
                             dialog.dismiss();
+                            Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
+                            startActivity(intenet);
                         }
                     },
                     MessageType.Question);
