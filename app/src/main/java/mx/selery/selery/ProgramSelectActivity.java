@@ -12,12 +12,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import mx.selery.entity.UserProgram;
-import mx.selery.library.io.SeleryApiAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import mx.selery.library.ui.ActivityBase;
+import mx.selery.entity.UserProgram;
+import mx.selery.library.io.SeleryApiAdapter;
 import mx.selery.entity.Program;
 import mx.selery.library.ui.ActivitySecure;
 import mx.selery.library.utility.StringHelper;
@@ -121,9 +122,19 @@ public class ProgramSelectActivity extends ActivitySecure {
                     StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            //YES - cambiar el programa
-                            //ir a ProgramStart
-                            dialog.dismiss();
+                            try
+                            {
+                                //YES - cambiar el programa
+                                //ir a ProgramStart
+                                setProgram(session.getUser().getUserID(), program);
+                                dialog.dismiss();
+                            }
+                            catch(Exception ex)
+                            {
+                                handleException(ex,true);
+                            }
+
+
                         }
                     }
                     ,
@@ -141,24 +152,39 @@ public class ProgramSelectActivity extends ActivitySecure {
         }
         else
         {
-            Callback callback = new Callback<UserProgram>() {
-                @Override
-                public void success(UserProgram userProgram, Response response) {
-                    Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
-                    startActivity(intenet);
-                }
-
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    handleException(retrofitError.toString(),true);
-
-                }
-            };
-            SeleryApiAdapter.getApiService().setProgram(session.getUser().getUserID(),this.program,callback);
-
+            setProgram(session.getUser().getUserID(), this.program);
         }
 
-
     }
+
+    private void setProgram(int userID, Program program)
+    {
+        Callback callback = new Callback<UserProgram>() {
+            @Override
+            public void success(UserProgram userProgram, Response response) {
+                try
+                {
+                    //actualizar la sesion con el programa del usuario
+                    session.getUser().setCurrentProgram(userProgram);
+                    session.setUser(session.getUser());
+                    Intent intenet = new Intent().setClass(getBaseContext() , ProgramStartActivity.class);
+                    startActivity(intenet);
+                }
+                catch(Exception ex)
+                {
+                    handleException(ex,true);
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                ActivityBase.handleException(retrofitError.toString());
+
+            }
+        };
+        SeleryApiAdapter.getApiService().setProgram(userID,program,callback);
+    }
+
 
 }
