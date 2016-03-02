@@ -23,7 +23,6 @@ public class ProgramStartActivity extends ActivitySecure {
                 return;
             }
             setContentView(R.layout.activity_program_start);
-
             TextView text_message = (TextView) findViewById(R.id.text_message);
             String message = String.format ("%1$s %2$s%3$s",
                     StringHelper.getValueFromResourceCode("wkt_start_program_text1", getBaseContext()),

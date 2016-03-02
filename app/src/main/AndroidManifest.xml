@@ -42,10 +42,12 @@
         <activity
             android:name=".ProgramSelectActivity"
             android:label=""
+            android:parentActivityName="mx.selery.selery.ProgramListActivity"
              />
         <activity
             android:name=".ProgramStartActivity"
             android:label=""
+            android:parentActivityName="mx.selery.selery.ProgramListActivity"
             />
 
     </application>

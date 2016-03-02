@@ -2,7 +2,10 @@ package mx.selery.library.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.utility.StringHelper;
+import mx.selery.selery.ProgramListActivity;
 import mx.selery.selery.R;
 
 /**
@@ -57,6 +61,20 @@ public class ActivityBase extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                try
+                {
+                    String parent= NavUtils.getParentActivityName(this);
+                    Intent intenet = new Intent().setClass(getBaseContext(), Class.forName(parent));
+                    intenet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intenet);
+                }
+                catch(Exception ex)
+                {
+                    handleException(ex);
+                }
+
+               break;
             // action with ID action_refresh was selected
             case R.id.Logout:
                 UserSessionManager session =UserSessionManager.getSessionInstnce(getApplicationContext());
@@ -67,7 +85,7 @@ public class ActivityBase extends AppCompatActivity
                 break;
         }
 
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     public enum MessageType
