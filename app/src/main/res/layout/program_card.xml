@@ -43,14 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
                 android:fontFamily="sans-serif-regular" />
-            <TextView
-                android:id="@+id/text_selected_program"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Iniciar Programa"
-                android:visibility="invisible"
-                android:textColor="#FFFFFF"
-                android:fontFamily="sans-serif-regular" />
+
         </LinearLayout>
         <TextView
             android:id="@+id/text_duration"
@@ -62,6 +55,16 @@
             android:layout_marginBottom="8dp"
             android:textColor="#255D83"
             android:fontFamily="sans-serif-medium" />
+        <TextView
+            android:id="@+id/text_selected_program"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/text_duration"
+            android:visibility="invisible"
+            android:text="Seleccionado!"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-regular" />
     </RelativeLayout>
 
 

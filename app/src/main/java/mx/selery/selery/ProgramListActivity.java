@@ -16,9 +16,11 @@ import org.json.JSONArray;
 
 import java.util.List;
 
+import mx.selery.entity.AvailableProgram;
 import mx.selery.entity.Program;
 import mx.selery.entity.User;
 import mx.selery.library.io.SeleryApiAdapter;
+import mx.selery.library.io.SeleryApiService;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -68,14 +70,13 @@ public class ProgramListActivity extends ActivitySecure {
             linearLayoutManager = new LinearLayoutManager(this);
             recycler.setLayoutManager(linearLayoutManager);
 
-            Callback callback = new Callback<List<Program>>() {
+            Callback callback = new Callback<List<AvailableProgram>>() {
                 @Override
-                public void success(List<Program> programs, Response response) {
+                public void success(List<AvailableProgram> programs, Response response) {
                     try
                     {
                         // Crear un nuevo adaptador
                         adapter = new ProgramAdapter(programs);
-
                         recycler.setAdapter(adapter);
                     }
                     catch(Exception e)

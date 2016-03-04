@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.Date;
 import java.util.List;
 
+import mx.selery.entity.AvailableProgram;
 import mx.selery.entity.Program;
 import mx.selery.library.security.UserSessionManager;
 import mx.selery.library.ui.ActivityBase;
@@ -32,7 +33,7 @@ import mx.selery.library.utility.StringHelper;
  */
 public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramViewHolder>  {
 
-    private List<Program> items;
+    private List<AvailableProgram> items;
     private UserSessionManager session;
     private Context context;
 
@@ -77,7 +78,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
 
     }
 
-    public ProgramAdapter(List<Program> items) {
+    public ProgramAdapter(List<AvailableProgram> items) {
         this.items = items;
     }
 
@@ -101,7 +102,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             String unitOfMeasureTex = StringHelper.getValueFromResourceCode(items.get(i).getUnitOfMeasureCode(), this.context);
             if (i % 2 == 0)
                 viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGColor));
-
             else
                 viewHolder.rlayout.setBackgroundColor(ContextCompat.getColor(this.context,R.color.wkt_program_item_BGAlternateColor));
 
@@ -109,12 +109,18 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             viewHolder.programImage.setImageResource(R.mipmap.ic_seleryprograma);
             viewHolder.programName.setText(items.get(i).getName());
             viewHolder.description.setText(items.get(i).getDescription());
-            viewHolder.duration.setText(String.format("%1$s %2$s",items.get(i).getDuration(),unitOfMeasureTex));
+            viewHolder.duration.setText(String.format("%1$s %2$s", items.get(i).getDuration(), unitOfMeasureTex));
+
+            if (items.get(i).getIsCurrent())
+            {
+                viewHolder.selectedProgram.setText(StringHelper.getValueFromResourceCode("wkt_selected_program_text3", this.context));
+                viewHolder.selectedProgram.setVisibility(View.VISIBLE);
+            }
 
         }
         catch(Exception ex)
         {
-
+            ActivityBase.handleException(ex);
         }
 
     }

@@ -48,11 +48,9 @@
     <string name="wkt_select_program">Elegir este programa</string>
     <string name="wkt_select_program_text1">Actualmente hay</string>
     <string name="wkt_select_program_text2">perosona(s) en este reto.</string>
+    <string name="wkt_selected_program_text3">Seleccoinado</string>
     <string name="wkt_duration">Duración :</string>
     <string name="wkt_start_program">Iniciar el programa ahora!</string>
     <string name="wkt_start_program_text1">Felicidades, usted está registrado en el programa</string>
-
-
-
 
 </resources>

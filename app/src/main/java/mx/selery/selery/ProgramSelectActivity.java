@@ -101,53 +101,55 @@ public class ProgramSelectActivity extends ActivitySecure {
         }
     }
 
-    @Override
-    protected void initializeFormFields()
-    {
-
-    }
-
     private void selectProgramButtonClick(View v)  throws Exception
     {
-        //si el usuario ya tiene un programa que no esta en progreso y es diferente al que selecciono
-        //hay que confirmar si quiere cambiarlo
-        //note que la lista no muestra el programa que esta en progreso, este no lo puede seleccionar
+        //Si el usuario cambiar de programa hay que confirmar si lo quiere hacer
         UserProgram currentProgram = session.getUser().getCurrentProgram();
-        if (currentProgram != null )
+        if (currentProgram != null)
         {
-            //si tiene un programa, este en progreso o no lo pudede cambiar
-            AlertDialog dialog = alertBox(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()),
-                    StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()),
-                    StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()),
-                    StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            try
-                            {
-                                //YES - cambiar el programa
-                                //ir a ProgramStart
-                                setProgram(session.getUser().getUserID(), program);
+            //si esta  cambiando de programa
+            if(currentProgram.getProgramID()!=program.getProgramID())
+            {
+                //alertar dle cambkio
+                AlertDialog dialog = alertBox(StringHelper.getValueFromResourceCode("misc_Alert", this.getBaseContext()),
+                        StringHelper.getValueFromResourceCode("reg_program_change_question", this.getBaseContext()),
+                        StringHelper.getValueFromResourceCode("misc_Yes", this.getBaseContext()),
+                        StringHelper.getValueFromResourceCode("misc_No", this.getBaseContext()),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                try
+                                {
+                                    //YES - cambiar el programa
+                                    //ir a ProgramStart
+                                    setProgram(session.getUser().getUserID(), program);
+                                    dialog.dismiss();
+                                }
+                                catch(Exception ex)
+                                {
+                                    handleException(ex,true);
+                                }
+
+
+                            }
+                        }
+                        ,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //ir a ProgramStart sin cambiarlo
                                 dialog.dismiss();
+                                Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
+                                startActivity(intenet);
                             }
-                            catch(Exception ex)
-                            {
-                                handleException(ex,true);
-                            }
-
-
-                        }
-                    }
-                    ,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //ir a ProgramStart sin cambiarlo
-                            dialog.dismiss();
-                            Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
-                            startActivity(intenet);
-                        }
-                    },
-                    MessageType.Question);
-            dialog.show();
+                        },
+                        MessageType.Question);
+                dialog.show();
+            }
+            else
+            {
+                //ir directo a ProgramStartActivity
+                Intent intenet = new Intent().setClass(getBaseContext(), ProgramStartActivity.class);
+                startActivity(intenet);
+            }
 
         }
         else

@@ -2,6 +2,7 @@ package mx.selery.library.io;
 
 import java.util.List;
 
+import mx.selery.entity.AvailableProgram;
 import mx.selery.entity.Credentials;
 import mx.selery.entity.Program;
 import mx.selery.entity.User;
@@ -38,7 +39,7 @@ public interface SeleryApiService {
 
     //workout
     @GET("/Selery/api/workout/availableprograms/")
-    void getAvailablePrograms(@Query("userID") int userID,Callback<List<Program>> cb );
+    void getAvailablePrograms(@Query("userID") int userID,Callback<List<AvailableProgram>> cb );
 
     @POST("/Selery/api/workout/setprogram/")
     void setProgram(@Query("userID") int userID,@Body Program program, Callback<UserProgram> cb);
