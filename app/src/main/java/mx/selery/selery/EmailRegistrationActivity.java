@@ -43,25 +43,25 @@ public class EmailRegistrationActivity extends ActivityFormBase {
 
             final Button registerButton = (Button) findViewById(R.id.button_register);
 
-            registerButton.setOnClickListener(new View.OnClickListener() {
+                     registerButton.setOnClickListener(new View.OnClickListener() {
 
-                public void onClick(View v) {
+                                public void onClick(View v) {
 
-                    String formErrorLevel = null;
-                    TextView control = null;
-                    if (validateForm() == false)
-                    {
-                        for (IValidator validator : ruleSet)
-                        {
-                            if (validator instanceof PasswordFieldRule && formErrorLevel==null)
-                            {
-                                String error = validator.getErrorMessage ();
-                                if (!TextUtils.isEmpty(error))
-                                {
-                                    formErrorLevel=error;
-                                }
-                            }
-                            else if(validator instanceof Field && control==null)
+                                    String formErrorLevel = null;
+                                    TextView control = null;
+                                    if (validateForm() == false)
+                                    {
+                                        for (IValidator validator : ruleSet)
+                                        {
+                                            if (validator instanceof PasswordFieldRule && formErrorLevel==null)
+                                            {
+                                                String error = validator.getErrorMessage ();
+                                                if (!TextUtils.isEmpty(error))
+                                                {
+                                                    formErrorLevel=error;
+                                                }
+                                            }
+                                            else if(validator instanceof Field && control==null)
                             {
                                 if (!TextUtils.isEmpty(validator.getErrorMessage()))
                                 {

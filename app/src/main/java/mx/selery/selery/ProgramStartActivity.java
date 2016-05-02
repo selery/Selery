@@ -2,6 +2,8 @@ package mx.selery.selery;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import mx.selery.library.ui.ActivitySecure;
@@ -36,6 +38,17 @@ public class ProgramStartActivity extends ActivitySecure {
                     session.getUser().getCurrentProgram().getDuration(),
                     StringHelper.getValueFromResourceCode(session.getUser().getCurrentProgram().getUnitOfMeasureCode(), getBaseContext()));
             text_duration.setText(duration);
+
+            final Button button_start_program = (Button) findViewById(R.id.button_start_program);
+            button_start_program.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    Intent intenet = new Intent().setClass(getBaseContext(), PersonalInformation.class);
+                    startActivity(intenet);
+                }
+            });
+
+
 
         }
         catch(Exception ex)

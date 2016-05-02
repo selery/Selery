@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Selery</string>
-    <string name="endpoint">http://192.168.0.3/Selery/api</string>
-
     <!--miscellaneous-->
     <string name="misc_please_wait">Espere un momento</string>
     <string name="misc_required_field">Campo requerido</string>
@@ -17,7 +15,6 @@
     <string name="misc_Settings">Ajustes</string>
     <string name="misc_Profile">Perfil</string>
     <string name="misc_ChangePassword">Cambiar password</string>
-
 
     <!--Registration-->
     <string name="reg_register">Registrarme</string>
@@ -37,7 +34,21 @@
     <string name="reg_program_change_question">Actualmente tiene un programa pendiente de iniciar, desea cambiar de programa?</string>
     <string name="reg_email_login">Ingresar con mi email</string>
     <string name="reg_access_denied">Acceso denegado.</string>
-
+    <string name="reg_personal_information_msg1">Bienvenido a Selery!</string>
+    <string name="reg_personal_information_msg2">A continuación te pedimos información personal para conocer mas sobre la proporción de tu peso y estatura, y saber que programa te podemos recomendar.</string>
+    <string name="reg_personal_information_gender">Sexo</string>
+    <string name="reg_personal_information_male">Hombre</string>
+    <string name="reg_personal_information_female">Mujer</string>
+    <string name="reg_personal_information_weight">Peso</string>
+    <string name="reg_personal_information_kg">Kgs</string>
+    <string name="reg_personal_information_height">Estatura</string>
+    <string name="reg_personal_information_meters">mts.</string>
+    <string name="reg_personal_information_cms">cms.</string>
+    <string name="reg_personal_information_birthdate">Fecha de nacimiento</string>
+    <string name="reg_personal_information_birthdateformat">Mes/Día/Año</string>
+    <string name="reg_personal_information_activity">Actividad</string>
+    <string name="reg_personal_information_activityprompt">Seleccionar actividad</string>
+    <string name="reg_personal_information_infcontinue">Siguiente</string>
 
     <!--Workout-->
     <string name="wkt_program_item_BGColor">#00C7BE</string>

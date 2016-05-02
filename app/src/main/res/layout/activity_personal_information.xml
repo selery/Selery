@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@mipmap/puntos">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reg_personal_information_msg1"
+        android:textColor="#666666"
+        android:fontFamily="sans-serif-regular"
+        android:textSize="15sp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reg_personal_information_msg2"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-light"
+        android:textSize="15sp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="13dp" />
+    <!--Sexo-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reg_personal_information_gender"
+        style="@style/label1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp" />
+    <RadioGroup
+        android:id="@+id/radiogroup_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radiobutton_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reg_personal_information_male"
+            android:checked="true"
+            android:textColor="#444444"
+            android:textSize="13sp" />
+        <RadioButton
+            android:id="@+id/radiobutton_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reg_personal_information_female"
+            android:textColor="#444444"
+            android:textSize="13sp" />
+    </RadioGroup>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/text_weight"
+                android:text="@string/reg_personal_information_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginRight="5dp"
+                style="@style/label1" />
+            <EditText
+                android:id="@+id/edittext_weight"
+                android:layout_width="145dp"
+                android:layout_height="25dp"
+                android:inputType="text"
+                android:numeric="integer"
+                android:digits="0123456789"
+                android:hint="@string/reg_personal_information_kg"
+                style="@style/editInput2"
+                android:imeOptions="actionNext"
+                android:layout_span="2" />
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/text_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reg_personal_information_height"
+                android:gravity="right"
+                android:layout_marginRight="5dp"
+                android:textColor="#2B5F7F"
+                android:fontFamily="sans-serif-medium"
+                style="@style/label1" />
+            <EditText
+                android:id="@+id/edittext_heightint"
+                android:layout_width="72dp"
+                android:inputType="text"
+                style="@style/editInput2"
+                android:hint="@string/reg_personal_information_meters"
+                android:numeric="integer"
+                android:digits="0123456789"
+                android:imeOptions="actionNext" />
+            <EditText
+                android:id="@+id/edittext_heightdect"
+                android:layout_width="72dp"
+                android:inputType="text"
+                style="@style/editInput2"
+                android:hint="@string/reg_personal_information_cms"
+                android:numeric="integer"
+                android:digits="0123456789"
+                android:imeOptions="actionDone" />
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:text="@string/reg_personal_information_birthdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_span="3"
+                style="@style/label1" />
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/text_birthdate"
+                android:text="@string/reg_personal_information_birthdateformat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_span="3"
+                android:textColor="#C0C0C0"
+                style="@style/label1" />
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/text_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reg_personal_information_activity"
+                android:gravity="right"
+                android:layout_marginRight="5dp"
+                android:textColor="#2B5F7F"
+                android:fontFamily="sans-serif-medium"
+                style="@style/label1" />
+            <Spinner
+                android:drawSelectorOnTop="true"
+                android:id="@+id/spinner_actividad"
+                android:prompt="@string/reg_personal_information_activityprompt"
+                android:layout_span="2"
+                style="@style/SpinnerStyle" />
+        </TableRow>
+    </TableLayout>
+    <!--Continuar-->
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reg_personal_information_infcontinue"
+            style="@style/button3"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="10dp" />
+    </FrameLayout>
+</LinearLayout>

@@ -62,4 +62,36 @@
         <item name="android:layout_height">40dp</item>
     </style>
 
+    <style name="label1">
+        <item name="android:typeface">sans</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">#2B5F7F</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="editInput2">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:background">@drawable/edittext_background2</item>
+        <item name="android:textColor">#444444</item>
+        <item name="android:layout_width">145dp</item>
+        <item name="android:layout_height">25dp</item>
+    </style>
+
+    <style name="SpinnerStyle" >
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#444444</item>
+    </style>
+
+    <style name="SpinnerItemStyle" >
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#444444</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+
 </resources>

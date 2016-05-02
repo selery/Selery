@@ -2,6 +2,7 @@ package mx.selery.library.io;
 
 import java.util.List;
 
+import mx.selery.entity.Activity;
 import mx.selery.entity.AvailableProgram;
 import mx.selery.entity.Credentials;
 import mx.selery.entity.Program;
@@ -30,6 +31,9 @@ public interface SeleryApiService {
 
     @GET("/Selery/api/registration/")
     void getUserByFacebookID(@Query("facebookID") Long id, Callback<User> cb);
+
+    @GET("/Selery/api/registration/getactivity")
+    void getActivity(Callback<List<Activity>> cb);
 
     @POST("/Selery/api/registration/new")
     void createUser(@Body User user,Callback<User> cb);

@@ -12,12 +12,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".SplashActivity"
+            android:background="@mipmap/splash"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:background="@mipmap/splash"
-            android:theme="@style/SplashTheme"
-            >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,29 +26,26 @@
         <activity
             android:name=".RegistrationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.HideTitle"
-            />
-        <activity android:name=".EmailRegistrationActivity"
-            android:theme="@style/AppTheme.HideTitle"/>
-
-        <activity android:name=".LoginActivity"
-            android:theme="@style/AppTheme.HideTitle"/>
-
+            android:theme="@style/AppTheme.HideTitle" />
+        <activity
+            android:name=".EmailRegistrationActivity"
+            android:theme="@style/AppTheme.HideTitle" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.HideTitle" />
         <activity
             android:name=".ProgramListActivity"
-            android:label=""
-            />
+            android:label="" />
         <activity
             android:name=".ProgramSelectActivity"
             android:label=""
-            android:parentActivityName="mx.selery.selery.ProgramListActivity"
-             />
+            android:parentActivityName=".ProgramListActivity" />
         <activity
             android:name=".ProgramStartActivity"
             android:label=""
-            android:parentActivityName="mx.selery.selery.ProgramListActivity"
-            />
-
+            android:parentActivityName=".ProgramListActivity" />
+        <activity android:name=".activity_personal_information" />
+        <activity android:name=".PersonalInformation"></activity>
     </application>
 
 </manifest>
