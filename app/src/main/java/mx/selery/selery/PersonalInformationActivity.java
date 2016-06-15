@@ -1,6 +1,8 @@
 package mx.selery.selery;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -17,7 +19,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class PersonalInformation extends ActivitySecure {
+public class PersonalInformationActivity extends ActivitySecure {
 
     private RadioButton maleRadioButton;
     private RadioButton femaleRadioButton;
@@ -53,6 +55,17 @@ public class PersonalInformation extends ActivitySecure {
             birthDateTextView = (TextView) findViewById(R.id.text_birthdate);
             activitySpinner = (Spinner) findViewById(R.id.spinner_actividad);
             saveButton= (Button)findViewById(R.id.button_save);
+
+            saveButton.setOnClickListener(new View.OnClickListener()
+            {
+                 public void onClick(View v)
+                 {
+
+                     // TODO: update profile
+                     Intent intenet = new Intent().setClass(getBaseContext(), HomeActivity.class);
+                     startActivity(intenet);
+                 }
+            });
 
             /*
                     session.getUser().setCurrentProgram(userProgram);

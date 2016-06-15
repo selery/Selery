@@ -43,25 +43,27 @@ public class EmailRegistrationActivity extends ActivityFormBase {
 
             final Button registerButton = (Button) findViewById(R.id.button_register);
 
-                     registerButton.setOnClickListener(new View.OnClickListener() {
+            registerButton.setOnClickListener(new View.OnClickListener()
+            {
 
-                                public void onClick(View v) {
+                public void onClick(View v)
+                {
 
-                                    String formErrorLevel = null;
-                                    TextView control = null;
-                                    if (validateForm() == false)
-                                    {
-                                        for (IValidator validator : ruleSet)
-                                        {
-                                            if (validator instanceof PasswordFieldRule && formErrorLevel==null)
-                                            {
-                                                String error = validator.getErrorMessage ();
-                                                if (!TextUtils.isEmpty(error))
-                                                {
-                                                    formErrorLevel=error;
-                                                }
-                                            }
-                                            else if(validator instanceof Field && control==null)
+                    String formErrorLevel = null;
+                    TextView control = null;
+                    if (validateForm() == false)
+                    {
+                        for (IValidator validator : ruleSet)
+                        {
+                            if (validator instanceof PasswordFieldRule && formErrorLevel==null)
+                            {
+                                String error = validator.getErrorMessage ();
+                                if (!TextUtils.isEmpty(error))
+                                {
+                                    formErrorLevel=error;
+                                }
+                            }
+                            else if(validator instanceof Field && control==null)
                             {
                                 if (!TextUtils.isEmpty(validator.getErrorMessage()))
                                 {
@@ -77,7 +79,8 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                             control.requestFocus ();//posicionarse en el primer control con error
                         }
 
-                        if (!TextUtils.isEmpty(formErrorLevel)) {
+                        if (!TextUtils.isEmpty(formErrorLevel))
+                        {
                             reportTransient(formErrorLevel,MessageType.Error);//error a nivel de forma
                             password.requestFocus();//TODO: hay que tratar de no tener el control en hardcode
                         }
@@ -90,7 +93,8 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                             StringHelper.getValueFromResourceCode("misc_please_wait", EmailRegistrationActivity.this.getBaseContext()));
 
                     //Validar que el email no exista
-                    Callback callback = new Callback<User>() {
+                    Callback callback = new Callback<User>()
+                    {
                         @Override
                         public void success(User user, Response response) {
                             //el usuario existe no podemos continuar
@@ -99,7 +103,8 @@ public class EmailRegistrationActivity extends ActivityFormBase {
                         }
 
                         @Override
-                        public void failure(RetrofitError retrofitError) {
+                        public void failure(RetrofitError retrofitError)
+                        {
                             dialog.cancel();
                             if (retrofitError.getResponse().getStatus()== HttpHelper.HttpStatus.NotFound.getValue())
                             {

@@ -44,8 +44,10 @@
             android:name=".ProgramStartActivity"
             android:label=""
             android:parentActivityName=".ProgramListActivity" />
-        <activity android:name=".activity_personal_information" />
-        <activity android:name=".PersonalInformation"></activity>
+        <activity
+            android:name=".PersonalInformationActivity"
+            android:label=""
+            android:parentActivityName=".ProgramStartActivity"/>
     </application>
 
 </manifest>

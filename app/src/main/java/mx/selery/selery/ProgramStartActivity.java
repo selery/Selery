@@ -43,7 +43,7 @@ public class ProgramStartActivity extends ActivitySecure {
             button_start_program.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
-                    Intent intenet = new Intent().setClass(getBaseContext(), PersonalInformation.class);
+                    Intent intenet = new Intent().setClass(getBaseContext(), PersonalInformationActivity.class);
                     startActivity(intenet);
                 }
             });

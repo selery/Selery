@@ -117,7 +117,7 @@ public class ActivityBase extends AppCompatActivity
 
     public static void reportTransient(String tag, String message, MessageType messageType, Context context)
     {
-        String s = !TextUtils.isEmpty(tag) ? String.format("%1$s:%2$s", tag, message): message;
+        String s = !TextUtils.isEmpty(tag) ? String.format("%1$s : %2$s", tag, message) : message;
         Toast toast = Toast.makeText(context, s, Toast.LENGTH_SHORT);
         toast.show();
     }

@@ -20,7 +20,7 @@ public class EmailValidator implements IValueValidator {
 
     @Override
     public String getErrorMessage(Context context) {
-        return StringHelper.getValueFromResourceCode("registration_invalid_email",context);
+        return StringHelper.getValueFromResourceCode("reg_invalid_email",context);
     }
 
 }
