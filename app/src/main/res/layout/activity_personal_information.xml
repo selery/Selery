@@ -56,7 +56,7 @@
     </RadioGroup>
     <TableLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_gravity="center">
         <TableRow
             android:layout_width="fill_parent"
@@ -73,9 +73,9 @@
                 android:id="@+id/edittext_weight"
                 android:layout_width="145dp"
                 android:layout_height="25dp"
-                android:inputType="text"
-                android:numeric="integer"
+                android:inputType="numberDecimal"
                 android:digits="0123456789"
+                android:maxLength="3"
                 android:hint="@string/reg_personal_information_kg"
                 style="@style/editInput2"
                 android:imeOptions="actionNext"
@@ -98,20 +98,20 @@
             <EditText
                 android:id="@+id/edittext_heightint"
                 android:layout_width="72dp"
-                android:inputType="text"
                 style="@style/editInput2"
                 android:hint="@string/reg_personal_information_meters"
-                android:numeric="integer"
+                android:inputType="numberDecimal"
                 android:digits="0123456789"
+                android:maxLength="1"
                 android:imeOptions="actionNext" />
             <EditText
                 android:id="@+id/edittext_heightdect"
                 android:layout_width="72dp"
-                android:inputType="text"
                 style="@style/editInput2"
                 android:hint="@string/reg_personal_information_cms"
-                android:numeric="integer"
+                android:inputType="numberDecimal"
                 android:digits="0123456789"
+                android:maxLength="2"
                 android:imeOptions="actionDone" />
         </TableRow>
         <TableRow
@@ -138,28 +138,34 @@
                 android:gravity="center"
                 android:layout_span="3"
                 android:textColor="#C0C0C0"
-                style="@style/label1" />
+                android:onClick="showDatePickerDialog"
+                style="@style/label1"
+                />
+
+
         </TableRow>
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="5dp">
+        <TableRow>
             <TextView
                 android:id="@+id/text_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_personal_information_activity"
-                android:gravity="right"
+                android:gravity="center"
+                android:layout_span="3"
                 android:layout_marginRight="5dp"
-                android:textColor="#2B5F7F"
                 android:fontFamily="sans-serif-medium"
                 style="@style/label1" />
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5dp">
             <Spinner
-                android:drawSelectorOnTop="true"
                 android:id="@+id/spinner_actividad"
-                android:prompt="@string/reg_personal_information_activityprompt"
-                android:layout_span="2"
-                style="@style/SpinnerStyle" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="3"
+                android:spinnerMode="dropdown"
+                style="@android:style/Widget.Spinner"/>
+
         </TableRow>
     </TableLayout>
     <!--Continuar-->
