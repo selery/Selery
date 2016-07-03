@@ -56,7 +56,7 @@
     </RadioGroup>
     <TableLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
         <TableRow
             android:layout_width="fill_parent"
@@ -119,20 +119,7 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="5dp">
             <TextView
-                android:text="@string/reg_personal_information_birthdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_span="3"
-                style="@style/label1" />
-        </TableRow>
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="5dp">
-            <TextView
                 android:id="@+id/text_birthdate"
-                android:text="@string/reg_personal_information_birthdateformat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -140,6 +127,8 @@
                 android:textColor="#C0C0C0"
                 android:onClick="showDatePickerDialog"
                 style="@style/label1"
+                android:hint="@string/reg_personal_information_birthdateformat"
+
                 />
 
 

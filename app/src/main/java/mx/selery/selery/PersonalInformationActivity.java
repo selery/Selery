@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import mx.selery.library.security.UserSessionManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -71,10 +73,31 @@ public class PersonalInformationActivity extends ActivitySecure {
             {
                  public void onClick(View v)
                  {
+                    try
+                    {
+                        if(TextUtils.isEmpty(birthDateTextView.getText().toString()))
+                        {
+                            reportTransient(StringHelper.getValueFromResourceCode("reg_personal_information_birthdateformat", v.getContext()));
+                            return;
+                        }
 
-                     // TODO: update profile
-                     Intent intenet = new Intent().setClass(getBaseContext(), HomeActivity.class);
-                     startActivity(intenet);
+                        int age = UserSessionManager.UserAge(DateTimeHelper.toDate(birthDateTextView.getText().toString(),v.getContext()));
+                        if (age<AppConstants.MIN_USER_AGE)
+                        {
+                            String msg1=StringHelper.getValueFromResourceCode("reg_min_user_age", v.getContext());
+                            String msg2=StringHelper.getValueFromResourceCode("misc_years", v.getContext());
+                            reportTransient(String.format("%1$s %2$s %3$s",msg1,msg2,AppConstants.MIN_USER_AGE));
+                            return;
+                        }
+                        // TODO: update profile
+                        //Intent intenet = new Intent().setClass(getBaseContext(), HomeActivity.class);
+                        //startActivity(intenet);
+                    }
+                    catch(Exception ex)
+                    {
+                        handleException(ex,true);
+                    }
+
                  }
             });
 
@@ -92,9 +115,9 @@ public class PersonalInformationActivity extends ActivitySecure {
                     {
                         activitySpinner.setAdapter(new SpinAdapter(getBaseContext(), R.layout.support_simple_spinner_dropdown_item , programs));
                     }
-                    catch(Exception e)
+                    catch(Exception ex)
                     {
-                        handleException(e,true);
+                        handleException(ex,true);
                     }
                 }
 
@@ -131,12 +154,27 @@ public class PersonalInformationActivity extends ActivitySecure {
 
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
+        public Dialog onCreateDialog(Bundle savedInstanceState)
+        {
+            int year=0;
+            int month=0;;
+            int day=0;
+            try
+            {
+                final Calendar c = Calendar.getInstance();
+                if(!TextUtils.isEmpty(birthDateTextView.getText().toString()))
+                {
+                    Date date = DateTimeHelper.toDate(birthDateTextView.getText().toString(),this.getContext());
+                    c.setTime(date);
+                }
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+            }
+            catch(Exception ex)
+            {
+                handleException(ex,true,this.getContext());
+            }
 
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);

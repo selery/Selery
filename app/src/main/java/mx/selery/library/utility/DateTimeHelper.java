@@ -5,6 +5,7 @@ import android.content.Context;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by htorres on 02/07/2016.
@@ -21,6 +22,16 @@ public class DateTimeHelper
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
         SimpleDateFormat sformat = new SimpleDateFormat(((SimpleDateFormat) dateFormat).toPattern());
         return dateFormatter.format(sformat.parse(d));
+    }
+
+    /*
+    Convierte un string a date
+    */
+    public static Date toDate(String sDate,Context context) throws ParseException
+    {
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
+        DateFormat df = new SimpleDateFormat(((SimpleDateFormat) dateFormat).toPattern());
+        return  df.parse(sDate);
     }
 
     /*
@@ -71,4 +82,5 @@ public class DateTimeHelper
 
         return String.format("%1$02d/%2$02d/%3$d",order[0],order[1],order[2]);
     }
+
 }

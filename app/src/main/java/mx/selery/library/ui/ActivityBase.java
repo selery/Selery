@@ -162,7 +162,8 @@ public class ActivityBase extends AppCompatActivity
 
     public static void handleException(Exception ex)
     {
-        handleException(ex,false,null);
+        int x=0;
+        //handleException(ex,false,null);
     }
 
     public static void handleException(String ex)

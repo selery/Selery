@@ -15,6 +15,8 @@
     <string name="misc_Settings">Ajustes</string>
     <string name="misc_Profile">Perfil</string>
     <string name="misc_ChangePassword">Cambiar password</string>
+    <string name="misc_years">años</string>
+
 
     <!--Registration-->
     <string name="reg_register">Registrarme</string>
@@ -45,12 +47,11 @@
     <string name="reg_personal_information_meters">mts.</string>
     <string name="reg_personal_information_cms">cms.</string>
     <string name="reg_personal_information_birthdate">Fecha de nacimiento</string>
-    <string name="reg_personal_information_birthdateformat">Mes/Día/Año</string>
+    <string name="reg_personal_information_birthdateformat">Seleccione fecha de nacimiento</string>
     <string name="reg_personal_information_activity">Actividad</string>
     <string name="reg_personal_information_activityprompt">Seleccionar actividad</string>
     <string name="reg_personal_information_infcontinue">Siguiente</string>
-
-    <!--Workout-->
+    <string name="reg_min_user_age">La edad mínima requerida es de</string>    <!--Workout-->
     <string name="wkt_program_item_BGColor">#00C7BE</string>
     <string name="wkt_program_item_BGAlternateColor">#1DA1CA</string>
     <string name="wkt_title_activity_program_list">Programas</string>
