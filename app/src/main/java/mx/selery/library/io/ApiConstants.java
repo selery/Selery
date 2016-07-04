@@ -5,7 +5,7 @@ package mx.selery.library.io;
  */
 public class ApiConstants
 {
-    public static final String BASE_URL = "http://192.168.15.158";
-    //public static final String BASE_URL = "http://192.168.1.136";
+    //public static final String BASE_URL = "http://192.168.15.158";
+    public static final String BASE_URL = "http://192.168.1.136";
 
 }

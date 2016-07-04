@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import mx.selery.entity.User;
 import mx.selery.library.security.UserSessionManager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,7 +46,7 @@ public class PersonalInformationActivity extends ActivitySecure {
     private Button saveButton;
     int activityID;
 
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         try
         {
@@ -69,6 +70,22 @@ public class PersonalInformationActivity extends ActivitySecure {
             activitySpinner = (Spinner) findViewById(R.id.spinner_actividad);
             saveButton= (Button)findViewById(R.id.button_save);
 
+            //Cargar valores si existen
+            final User user =session.getUser();
+            if(user.getGender()==1)
+                maleRadioButton.setChecked(true);
+            if(user.getGender()==2)
+                femaleRadioButton.setChecked(true);
+            if (user.getWeight()!=0)
+                weightEditText.setText(String.format("%.0f",user.getWeight()));
+            if(user.getHeighInt()!=0)
+                heightIntEditText.setText(String.valueOf(user.getHeighInt()));
+            if(user.getHeighDec()!=0)
+                heightDecEditText.setText(String.valueOf(user.getHeighDec()));
+            if(user.getBirthDate()!=null)
+                birthDateTextView.setText(DateTimeHelper.toShortDateString(user.getBirthDate(),this.getApplicationContext()));
+
+
             saveButton.setOnClickListener(new View.OnClickListener()
             {
                  public void onClick(View v)
@@ -89,7 +106,10 @@ public class PersonalInformationActivity extends ActivitySecure {
                             reportTransient(String.format("%1$s %2$s %3$s",msg1,msg2,AppConstants.MIN_USER_AGE));
                             return;
                         }
-                        // TODO: update profile
+
+                        //save user state
+                        updateProfile(session.getUser());
+
                         //Intent intenet = new Intent().setClass(getBaseContext(), HomeActivity.class);
                         //startActivity(intenet);
                     }
@@ -114,6 +134,11 @@ public class PersonalInformationActivity extends ActivitySecure {
                     try
                     {
                         activitySpinner.setAdapter(new SpinAdapter(getBaseContext(), R.layout.support_simple_spinner_dropdown_item , programs));
+                        if(user.getActivityID()!=0)
+                        {
+                            int position = ((SpinAdapter)activitySpinner.getAdapter()).GetPositionByItemID(user.getActivityID());
+                            activitySpinner.setSelection(position);
+                        }
                     }
                     catch(Exception ex)
                     {
@@ -140,6 +165,20 @@ public class PersonalInformationActivity extends ActivitySecure {
     protected void initializeFormFields()
     {
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        try
+        {
+            updateProfile(session.getUser());
+            super.onBackPressed();
+        }
+        catch(Exception ex)
+        {
+            handleException(ex,true);
+        }
     }
 
     public void showDatePickerDialog(View v) {
@@ -196,5 +235,24 @@ public class PersonalInformationActivity extends ActivitySecure {
         }
 
     }
+
+    private void  updateProfile(User user) throws ParseException
+    {
+        //udpate profile
+        int gender= maleRadioButton.isChecked()? 1: 2;
+        double weight =!TextUtils.isEmpty(weightEditText.getText().toString()) ? Integer.parseInt(weightEditText.getText().toString()) : 0;
+        int heighInt = !TextUtils.isEmpty(heightIntEditText.getText().toString()) ? Integer.parseInt(heightIntEditText.getText().toString()) : 0;
+        int heighDec = !TextUtils.isEmpty(heightDecEditText.getText().toString()) ? Integer.parseInt(heightDecEditText.getText().toString()) : 0;
+        Date birthDate= !TextUtils.isEmpty(birthDateTextView.getText().toString())? DateTimeHelper.toDate(birthDateTextView.getText().toString(),this.getApplicationContext()) : null;
+        int activityID=((Activity)activitySpinner.getSelectedItem()).getActivityID();
+        user.setGender(gender);
+        user.setWeight(weight);
+        user.setHeighInt(heighInt);
+        user.setHeighDec(heighDec);
+        user.setBirthDate(birthDate);
+        user.setActivityID(activityID);
+        session.setUser(user);
+    }
+
 }
 

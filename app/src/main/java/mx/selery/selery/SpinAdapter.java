@@ -33,6 +33,24 @@ public class SpinAdapter extends ArrayAdapter<mx.selery.entity.Activity> {
         return values.get(position);
     }
 
+    public int GetPositionByItemID(int itemID)
+    {
+        int position = -1;
+
+        for (int i = 0; i < values.size(); i++)
+        {
+
+            if (values.get(i).getActivityID() == itemID)
+            {
+                position = i;
+                break;
+            }
+        }
+
+        return position;
+
+    }
+
     public long getItemId(int position) {
         return position;
     }

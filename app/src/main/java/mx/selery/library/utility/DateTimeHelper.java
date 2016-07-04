@@ -1,10 +1,12 @@
 package mx.selery.library.utility;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -22,6 +24,20 @@ public class DateTimeHelper
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
         SimpleDateFormat sformat = new SimpleDateFormat(((SimpleDateFormat) dateFormat).toPattern());
         return dateFormatter.format(sformat.parse(d));
+    }
+
+    /*
+    Convierte fecha a short date string formateando año y mes a dos digitos
+    */
+    public static String toShortDateString(Date date, Context context)
+    {
+
+        final Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        return toShortDateString(month,day,year,context);
     }
 
     /*
