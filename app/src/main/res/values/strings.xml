@@ -51,7 +51,12 @@
     <string name="reg_personal_information_activity">Actividad</string>
     <string name="reg_personal_information_activityprompt">Seleccionar actividad</string>
     <string name="reg_personal_information_infcontinue">Siguiente</string>
-    <string name="reg_min_user_age">La edad mínima requerida es de</string>    <!--Workout-->
+    <string name="reg_min_user_age">La edad mínima requerida es de</string>
+    <string name="reg_MinCalories">1200</string>
+    <string name="reg_MaxCalories">3500</string>
+    <string name="reg_CaloriesValidationMessage">El valor de calorías no es válido, revisar estatura y peso.</string>
+
+    <!--Workout-->
     <string name="wkt_program_item_BGColor">#00C7BE</string>
     <string name="wkt_program_item_BGAlternateColor">#1DA1CA</string>
     <string name="wkt_title_activity_program_list">Programas</string>

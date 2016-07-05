@@ -48,5 +48,11 @@ public interface SeleryApiService {
     @POST("/Selery/api/workout/setprogram/")
     void setProgram(@Query("userID") int userID,@Body Program program, Callback<UserProgram> cb);
 
+    //nutricion
+    @POST("/Selery/api/nutrition/usercalories/")
+    void getUserCalories(@Body User user,Callback<Double> calories);
+
+
+
 
 }

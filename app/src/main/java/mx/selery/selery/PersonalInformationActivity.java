@@ -107,11 +107,42 @@ public class PersonalInformationActivity extends ActivitySecure {
                             return;
                         }
 
-                        //save user state
+                        //guardar el estado del usuario
+                        //TODO: no estoy guardando las calorias
                         updateProfile(session.getUser());
 
-                        //Intent intenet = new Intent().setClass(getBaseContext(), HomeActivity.class);
-                        //startActivity(intenet);
+                        //validar calorias
+                        final Double minCalories=Double.parseDouble(StringHelper.getValueFromResourceCode("reg_MinCalories", v.getContext()));
+                        final Double maxCalories=Double.parseDouble(StringHelper.getValueFromResourceCode("reg_MaxCalories", v.getContext()));
+                        Callback callback = new Callback<Double>() {
+                            @Override
+                            public void success(Double calories, Response response) {
+                                try
+                                {
+                                    if(calories < minCalories || calories > maxCalories )
+                                    {
+                                        reportTransient(StringHelper.getValueFromResourceCode("reg_CaloriesValidationMessage", getBaseContext()));
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        Intent intent = new Intent().setClass(getBaseContext(), DiagnosticActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                                catch(Exception ex)
+                                {
+                                    handleException(ex,true);
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError retrofitError) {
+                                handleException(retrofitError.toString());
+                            }
+                        };
+                        SeleryApiAdapter.getApiService().getUserCalories(session.getUser(),callback);
+
                     }
                     catch(Exception ex)
                     {

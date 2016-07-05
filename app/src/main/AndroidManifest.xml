@@ -29,25 +29,36 @@
             android:theme="@style/AppTheme.HideTitle" />
         <activity
             android:name=".EmailRegistrationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.HideTitle" />
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.HideTitle" />
         <activity
             android:name=".ProgramListActivity"
+            android:screenOrientation="portrait"
             android:label="" />
         <activity
             android:name=".ProgramSelectActivity"
+            android:screenOrientation="portrait"
             android:label=""
             android:parentActivityName=".ProgramListActivity" />
         <activity
             android:name=".ProgramStartActivity"
+            android:screenOrientation="portrait"
             android:label=""
             android:parentActivityName=".ProgramListActivity" />
         <activity
             android:name=".PersonalInformationActivity"
+            android:screenOrientation="portrait"
             android:label=""
             android:parentActivityName=".ProgramStartActivity"/>
+        <activity
+            android:name=".DiagnosticActivity"
+            android:screenOrientation="portrait"
+            android:label=""
+            android:parentActivityName=".PersonalInformationActivity"/>
     </application>
 
 </manifest>
